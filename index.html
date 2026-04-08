@@ -1,0 +1,253 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Passômetro UTI — Hospital Santa Helena</title>
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html, body { height: 100%; }
+body {
+  font-family: Arial, sans-serif;
+  background: #0f2133;
+  color: #fff;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+}
+
+/* ===== HEADER ===== */
+.header {
+  text-align: center;
+  margin-bottom: 52px;
+}
+.header-badge {
+  display: inline-block;
+  background: #729fcf;
+  color: #fff;
+  font-size: 8.5pt;
+  font-weight: bold;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  padding: 5px 16px;
+  border-radius: 20px;
+  margin-bottom: 18px;
+}
+.header h1 {
+  font-size: 26pt;
+  font-weight: bold;
+  color: #fff;
+  letter-spacing: 0.5px;
+  line-height: 1.1;
+}
+.header h1 span {
+  color: #68d3c3;
+}
+.header .subtitle {
+  font-size: 10pt;
+  color: #7a9db8;
+  margin-top: 8px;
+  letter-spacing: 0.3px;
+}
+
+/* ===== CARDS ===== */
+.cards {
+  display: flex;
+  gap: 28px;
+  flex-wrap: wrap;
+  justify-content: center;
+  max-width: 820px;
+  width: 100%;
+}
+
+.card {
+  flex: 1;
+  min-width: 300px;
+  max-width: 370px;
+  background: #1b3a52;
+  border-radius: 14px;
+  border: 1px solid #264d6b;
+  overflow: hidden;
+  text-decoration: none;
+  color: inherit;
+  display: flex;
+  flex-direction: column;
+  transition: transform 0.18s, box-shadow 0.18s, border-color 0.18s;
+  box-shadow: 0 4px 24px rgba(0,0,0,0.35);
+}
+.card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 12px 40px rgba(0,0,0,0.5);
+  border-color: #729fcf;
+}
+
+.card-top {
+  padding: 28px 28px 20px;
+  display: flex;
+  align-items: flex-start;
+  gap: 16px;
+}
+.card-icon {
+  font-size: 34pt;
+  line-height: 1;
+  flex-shrink: 0;
+}
+.card-title-block {}
+.card-tag {
+  font-size: 6.5pt;
+  font-weight: bold;
+  letter-spacing: 1.2px;
+  text-transform: uppercase;
+  color: #68d3c3;
+  margin-bottom: 4px;
+}
+.card-title {
+  font-size: 15pt;
+  font-weight: bold;
+  color: #fff;
+  line-height: 1.15;
+}
+
+.card-body {
+  padding: 0 28px 24px;
+  flex: 1;
+}
+.card-desc {
+  font-size: 9pt;
+  color: #8ab4cc;
+  line-height: 1.55;
+  margin-bottom: 18px;
+}
+
+.card-features {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+.feat {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  font-size: 8pt;
+  color: #a8d8f0;
+}
+.feat::before {
+  content: '';
+  display: inline-block;
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: #2b8a7e;
+  flex-shrink: 0;
+}
+
+.card-footer {
+  padding: 14px 28px;
+  background: #152e45;
+  border-top: 1px solid #264d6b;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-size: 8pt;
+  font-weight: bold;
+  color: #68d3c3;
+  letter-spacing: 0.3px;
+}
+.card-footer .arrow {
+  font-size: 14pt;
+  transition: transform 0.18s;
+}
+.card:hover .card-footer .arrow {
+  transform: translateX(5px);
+}
+
+/* Card color variants */
+.card-enf .card-top  { border-bottom: 3px solid #2b8a7e; }
+.card-med .card-top  { border-bottom: 3px solid #729fcf; }
+.card-med .feat::before { background: #729fcf; }
+.card-med .card-footer { color: #a8d8f0; }
+.card-med .card-tag  { color: #a8d8f0; }
+
+/* ===== FOOTER ===== */
+.page-footer {
+  margin-top: 52px;
+  text-align: center;
+  font-size: 7.5pt;
+  color: #3a5f7a;
+  line-height: 1.8;
+}
+.page-footer strong { color: #5a8aaa; }
+</style>
+</head>
+<body>
+
+<div class="header">
+  <div class="header-badge">Hospital Santa Helena &nbsp;·&nbsp; Rede D'Or</div>
+  <h1>UTI 3º Andar<br><span>Passômetros</span></h1>
+  <div class="subtitle">Selecione o formulário de passagem de plantão</div>
+</div>
+
+<div class="cards">
+
+  <!-- ENFERMAGEM -->
+  <a class="card card-enf" href="mapa_leitos_UTI.html">
+    <div class="card-top">
+      <div class="card-icon">🩺</div>
+      <div class="card-title-block">
+        <div class="card-tag">Enfermagem</div>
+        <div class="card-title">Passômetro<br>de Enfermagem</div>
+      </div>
+    </div>
+    <div class="card-body">
+      <div class="card-desc">
+        Formulário de passagem de plantão da equipe de enfermagem com todos os 32 leitos da UTI.
+      </div>
+      <div class="card-features">
+        <div class="feat">32 leitos — Postos 1, 2 e 3</div>
+        <div class="feat">Diagnósticos, medicações e dispositivos</div>
+        <div class="feat">Infusões contínuas e curativos</div>
+        <div class="feat">Auto-save + impressão por posto</div>
+      </div>
+    </div>
+    <div class="card-footer">
+      Abrir formulário <span class="arrow">→</span>
+    </div>
+  </a>
+
+  <!-- MÉDICO -->
+  <a class="card card-med" href="passometro_medico.html">
+    <div class="card-top">
+      <div class="card-icon">👨‍⚕️</div>
+      <div class="card-title-block">
+        <div class="card-tag">Medicina</div>
+        <div class="card-title">Passômetro<br>Médico</div>
+      </div>
+    </div>
+    <div class="card-body">
+      <div class="card-desc">
+        Formulário médico com diagnósticos, exames, pareceres, ATB e condutas por leito.
+      </div>
+      <div class="card-features">
+        <div class="feat">32 leitos — Postos 1, 2 e 3</div>
+        <div class="feat">ATB com contador D+ automático</div>
+        <div class="feat">Infusões com cálculo mcg/kg/min</div>
+        <div class="feat">BH, labs e pareceres com resposta</div>
+      </div>
+    </div>
+    <div class="card-footer">
+      Abrir formulário <span class="arrow">→</span>
+    </div>
+  </a>
+
+</div>
+
+<div class="page-footer">
+  <strong>Os dados são salvos localmente em cada computador</strong><br>
+  Nenhuma informação é enviada para servidores externos
+</div>
+
+</body>
+</html>

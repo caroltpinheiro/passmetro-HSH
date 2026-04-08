@@ -1,0 +1,1500 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Passômetro Médico UTI — Hospital Santa Helena</title>
+<style>
+/* ===== RESET & BASE ===== */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { font-size: 14px; }
+body { font-family: Arial, sans-serif; font-size: 7pt; background: #f0f4f8; color: #111; }
+
+/* ===== NAV BAR ===== */
+#navbar {
+  position: sticky; top: 0; z-index: 1000;
+  background: #1b3a52; color: #fff;
+  padding: 6px 10px; display: flex; flex-wrap: wrap; gap: 6px; align-items: center;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.4);
+}
+#navbar .nav-title { font-size: 11pt; font-weight: bold; color: #a8d8f0; margin-right: 8px; white-space: nowrap; }
+#navbar .home-btn {
+  font-size: 7.5pt; font-weight: bold; color: #a8d8f0; text-decoration: none;
+  padding: 3px 8px; border: 1px solid #4a7a9b; border-radius: 3px;
+  background: #152e45; white-space: nowrap; margin-right: 6px;
+  transition: background 0.15s, color 0.15s;
+}
+#navbar .home-btn:hover { background: #729fcf; color: #fff; }
+#navbar .nav-sep { width: 1px; height: 28px; background: rgba(255,255,255,0.2); margin: 0 4px; }
+#navbar .nav-group { display: flex; flex-wrap: wrap; gap: 3px; align-items: center; }
+#navbar .nav-group-label { font-size: 7pt; color: #a8d8f0; font-weight: bold; margin-right: 2px; }
+#navbar .global-fields { display: flex; gap: 8px; align-items: center; margin-left: auto; flex-wrap: wrap; }
+#navbar .global-fields label { font-size: 7pt; color: #cde; white-space: nowrap; }
+#navbar .global-fields input[type="text"],
+#navbar .global-fields input[type="date"] {
+  font-size: 7.5pt; padding: 2px 5px; border: 1px solid #4a7a9b; border-radius: 3px;
+  background: #2a5070; color: #fff; outline: none;
+}
+#navbar .global-fields input[type="text"]::placeholder { color: #8ab; }
+#navbar .plantao-box { display: flex; gap: 6px; align-items: center; }
+#navbar .plantao-box label { display: flex; align-items: center; gap: 3px; font-size: 7pt; color: #cde; cursor: pointer; }
+#navbar .plantao-box input[type="checkbox"] { accent-color: #4fc3f7; }
+
+/* Bed buttons */
+.bed-btn {
+  position: relative;
+  font-size: 7pt; font-weight: bold;
+  padding: 3px 6px; border-radius: 3px; border: 1px solid #4a7a9b;
+  background: #4a5568; color: #e2e8f0; cursor: pointer;
+  transition: background 0.15s, color 0.15s;
+  white-space: nowrap;
+}
+.bed-btn:hover { background: #5a7a9b; }
+.bed-btn.active { background: #e53e3e; color: #fff; border-color: #e53e3e; }
+.bed-btn.has-data { background: #2b8a7e; color: #fff; border-color: #2b8a7e; }
+.bed-btn.has-data.active { background: #e53e3e; border-color: #e53e3e; }
+.bed-btn .dot {
+  position: absolute; top: -3px; right: -3px;
+  width: 7px; height: 7px; border-radius: 50%;
+  background: #68d391; border: 1px solid #1b3a52; display: none;
+}
+.bed-btn.has-data .dot { display: block; }
+
+/* Print & Save controls */
+#save-status { font-size: 7.5pt; padding: 3px 8px; border-radius: 3px; font-weight: bold; min-width: 70px; text-align: center; }
+#save-status.saving { background: #dd6b20; color: #fff; }
+#save-status.saved  { background: #276749; color: #fff; }
+#save-status.idle   { background: #2d3748; color: #888; }
+#save-status.error  { background: #c53030; color: #fff; }
+
+.print-dd { position: relative; }
+.print-dd-btn {
+  font-size: 7.5pt; padding: 3px 10px; border-radius: 3px; border: 1px solid #4a7a9b;
+  background: #2a5070; color: #fff; cursor: pointer; font-weight: bold;
+}
+.print-dd-btn:hover { background: #3a6080; }
+.print-dd-menu {
+  display: none; position: absolute; top: 100%; right: 0; min-width: 160px;
+  background: #1b3a52; border: 1px solid #4a7a9b; border-radius: 4px;
+  z-index: 9999; box-shadow: 0 4px 12px rgba(0,0,0,0.4);
+}
+.print-dd-menu.open { display: block; }
+.print-dd-menu button {
+  display: block; width: 100%; text-align: left;
+  padding: 6px 12px; font-size: 8pt; color: #cde; background: none; border: none;
+  cursor: pointer;
+}
+.print-dd-menu button:hover { background: #2a5070; color: #fff; }
+
+/* ===== MAIN CONTENT ===== */
+#app-form-wrapper { padding: 10px; }
+.bed-section { display: none; }
+.bed-section.visible { display: block; }
+
+/* ===== BED TABLE ===== */
+.bed-table-wrap { overflow-x: auto; margin-bottom: 12px; }
+table.bed-table {
+  border-collapse: collapse;
+  width: 100%;
+  min-width: 1180px;
+  font-size: 7pt;
+  font-family: Arial, sans-serif;
+}
+table.bed-table th, table.bed-table td {
+  border: 1px solid #b0c4d8;
+  vertical-align: top;
+  padding: 4px 6px;
+}
+table.bed-table th { border-color: #264d6b; }
+/* Column widths */
+table.bed-table { width: 100%; table-layout: fixed; }
+table.bed-table .col-leito   { width: 11%; }
+table.bed-table .col-diag    { width: 12%; }
+table.bed-table .col-comor   { width: 11%; }
+table.bed-table .col-exames  { width: 18%; }
+table.bed-table .col-par     { width: 13%; }
+table.bed-table .col-acessos { width: 9%; }
+table.bed-table .col-atb     { width: 13%; }
+table.bed-table .col-cond    { width: 13%; }
+
+/* BH / Labs row */
+.bh-labs-row td { background: #f0f4f8; border-top: 2px solid #729fcf !important; padding: 6px 10px !important; }
+.bh-labs-wrap { display: flex; gap: 0; align-items: stretch; }
+.bh-block { flex: 1; padding-right: 16px; border-right: 1px solid #d0d8e0; margin-right: 16px; }
+.bh-block:last-child { border-right: none; margin-right: 0; padding-right: 0; }
+.bh-block-title { font-weight: bold; font-size: 7pt; color: #1b3a52; margin-bottom: 6px; text-transform: uppercase; letter-spacing: 0.5px; }
+.bh-grid { display: flex; flex-wrap: wrap; gap: 6px 20px; }
+.bh-field { display: flex; align-items: center; gap: 4px; font-size: 7pt; }
+.bh-field b { color: #1b3a52; white-space: nowrap; }
+.lab-group-lbl { font-size: 5.5pt; font-weight: bold; color: #5a7a9b; text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 3px; border-bottom: 1px solid #e2e8f0; padding-bottom: 1px; }
+.bh-field input { width: 55px; border: none; border-bottom: 1px solid #aaa; background: transparent;
+  font-size: 7pt; font-family: Arial, sans-serif; outline: none; padding: 1px 2px; }
+.bh-field input:focus { border-bottom-color: #1a6b8a; background: rgba(255,255,150,0.3); }
+
+/* PARECERES slots */
+.par-slot { margin-bottom: 7px; padding-bottom: 6px; border-bottom: 1px solid #e8e8e8; }
+.par-slot:last-child { border-bottom: none; margin-bottom: 0; }
+.par-header { display: flex; gap: 4px; align-items: center; margin-bottom: 3px; }
+.par-spec { flex: 1; font-weight: bold; font-size: 7pt !important; }
+.par-date { width: 50px !important; font-size: 6.5pt !important; color: #555; }
+.par-resp-area { min-height: 28px; font-size: 6.5pt; outline: none; color: #333;
+  border: 1px dashed #ccc; border-radius: 2px; padding: 2px 3px; width: 100%;
+  font-family: Arial, sans-serif; word-break: break-word; }
+.par-resp-area:focus { border-color: #1a6b8a; background: rgba(255,255,150,0.2); outline: none; }
+.par-resp-area:empty::before { content: attr(data-ph); color: #bbb; pointer-events: none; font-style: italic; }
+
+/* ACESSOS rows */
+.acesso-row { display:flex; flex-direction:column; margin-bottom:4px; font-size:6.5pt; }
+.acesso-top { display:flex; align-items:baseline; gap:3px; }
+.acesso-lbl { font-weight:bold; white-space:nowrap; min-width:34px; }
+.acesso-date-row { display:flex; align-items:baseline; gap:2px; margin-top:1px; padding-left:36px; color:#555; }
+.date-lbl { font-size:6pt; color:#555; white-space:nowrap; }
+.date-inp { width:46px !important; font-size:6pt !important; }
+.d-badge { display:inline-block; background:#27ae60; color:#fff; font-size:5.5pt;
+  border-radius:3px; padding:0 3px; margin-left:3px; vertical-align:middle; font-weight:bold; }
+
+/* ATB rows */
+.atb-row { display:flex; align-items:baseline; gap:3px; margin-bottom:3px; flex-wrap:wrap; }
+.atb-name-inp { flex:1; min-width:60px; }
+.atb-date-inp { width:44px !important; font-size:6pt !important; }
+
+/* PARECERES column */
+.par-row { display:flex; flex-direction:column; margin-bottom:5px; font-size:6.5pt; }
+.par-name-inp { font-size:6.5pt; font-weight:bold; }
+.par-bottom { display:flex; align-items:baseline; gap:3px; margin-top:1px; flex-wrap:wrap; }
+.par-date-inp { width:44px !important; font-size:6pt !important; }
+.par-resp { font-size:6pt; color:#555; white-space:nowrap; }
+
+/* Header row */
+.bed-table thead th {
+  background: linear-gradient(180deg, #1b3a52 0%, #264d6b 100%);
+  color: #a8d8f0; font-size: 7.5pt; font-weight: bold;
+  text-align: center; padding: 5px 3px; letter-spacing: 0.3px;
+  text-transform: uppercase; border-bottom: 2px solid #729fcf;
+}
+
+/* ===== LEITO column — redesigned ===== */
+.col-leito-cell {
+  background: #fff !important;
+  padding: 0 !important;
+  vertical-align: top;
+}
+/* Dark header: bed number + patient name */
+.leito-head {
+  background: #1b3a52;
+  padding: 5px 7px 6px;
+  border-bottom: 3px solid #729fcf;
+}
+td.prec-bg-contato   .leito-head { background: #b45309; }
+td.prec-bg-goticular .leito-head { background: #c2410c; }
+td.prec-bg-aerossol  .leito-head { background: #b91c1c; }
+.leito-num {
+  display: inline-block;
+  background: #729fcf;
+  color: #fff;
+  font-size: 13pt;
+  font-weight: bold;
+  border-radius: 5px;
+  padding: 1px 8px;
+  line-height: 1.25;
+  margin-bottom: 5px;
+  letter-spacing: 0.5px;
+}
+.leito-pac-name {
+  font-size: 8.5pt;
+  font-weight: bold;
+  color: #fff;
+  min-height: 15px;
+  width: 100%;
+  outline: none;
+  word-break: break-word;
+  border-bottom: 1px solid rgba(255,255,255,0.25);
+  padding-bottom: 2px;
+  cursor: text;
+}
+.leito-pac-name:focus { background: rgba(255,255,255,0.08); border-radius: 2px; outline: none; }
+.leito-pac-name:empty::before {
+  content: 'Nome do paciente';
+  color: rgba(255,255,255,0.35);
+  font-style: italic; font-weight: normal; font-size: 7.5pt;
+  pointer-events: none;
+}
+/* Body: fields on white */
+.leito-body { padding: 6px 7px 5px; }
+.lf-row {
+  display: grid;
+  grid-template-columns: 50px 1fr;
+  align-items: center;
+  gap: 0 4px;
+  margin-bottom: 4px;
+  min-height: 15px;
+}
+.lf-lbl {
+  font-size: 6pt;
+  font-weight: bold;
+  color: #5a7a9b;
+  text-transform: uppercase;
+  letter-spacing: 0.2px;
+  white-space: nowrap;
+}
+.lf-inp {
+  font-size: 7pt;
+  border: none;
+  border-bottom: 1px solid #dde8f0;
+  background: transparent;
+  outline: none;
+  width: 100%;
+  padding: 1px 2px;
+  font-family: Arial, sans-serif;
+  color: #111;
+  transition: border-color 0.15s;
+}
+.lf-inp:focus { border-bottom-color: #1a6b8a; background: rgba(255,255,150,0.25); }
+
+/* Precaução inside leito body */
+.prec-section {
+  margin-top: 5px;
+  padding-top: 4px;
+  border-top: 1px solid #edf2f7;
+}
+.prec-section-lbl {
+  font-size: 5.5pt; font-weight: bold; color: #5a7a9b;
+  text-transform: uppercase; letter-spacing: 0.3px; margin-bottom: 3px;
+}
+.prec-chips { display: flex; flex-wrap: wrap; gap: 2px; }
+.prec-chip {
+  font-size: 5.5pt; padding: 2px 4px; border-radius: 3px; cursor: pointer;
+  border: 1px solid transparent; font-weight: bold;
+  white-space: nowrap; user-select: none; transition: opacity 0.1s, outline 0.1s;
+}
+.prec-chip:hover { opacity: 0.75; }
+.prec-chip[data-type="PADRÃO"]    { background: #e2e8f0; border-color: #a0aec0; color: #2d3748; }
+.prec-chip[data-type="CONTATO"]   { background: #fef3c7; border-color: #d97706; color: #78350f; }
+.prec-chip[data-type="GOTÍCULAS"] { background: #ffedd5; border-color: #ea580c; color: #7c2d12; }
+.prec-chip[data-type="AEROSSOL"]  { background: #fee2e2; border-color: #dc2626; color: #7f1d1d; }
+.prec-chip.selected { outline: 2px solid #1a6b8a; outline-offset: 1px; }
+
+.prec-bg-padrao    { /* default — leito-head stays #1b3a52 */ }
+.prec-bg-contato   { background: #fef3c7 !important; }
+.prec-bg-goticular { background: #ffedd5 !important; }
+.prec-bg-aerossol  { background: #fee2e2 !important; }
+
+/* contenteditable */
+[contenteditable="true"] {
+  outline: none; min-height: 18px; width: 100%;
+  padding: 0; cursor: text;
+}
+[contenteditable="true"]:hover { background: rgba(255,255,200,0.4); border-radius: 2px; }
+[contenteditable="true"]:focus { outline: 1px solid #1a6b8a; border-radius: 2px; background: rgba(200,240,255,0.2); }
+
+/* Input fields inline */
+.inline-input {
+  border: none; background: transparent; font-size: 7pt; font-family: Arial, sans-serif;
+  outline: none; width: 100%; color: #111;
+}
+.inline-input:hover { background: rgba(255,255,200,0.4); border-radius: 2px; }
+.inline-input:focus { outline: 1px solid #1a6b8a; border-radius: 2px; }
+
+
+/* ATB section */
+.atb-section { margin-bottom: 5px; }
+.atb-label { font-size: 7.5pt; font-weight: bold; color: #1b3a52; margin-bottom: 2px; display: block; }
+.atb-content { position: relative; }
+
+/* D+ badge */
+.d-badge {
+  display: inline-block; background: #276749; color: #fff;
+  font-size: 5.5pt; font-weight: bold; padding: 1px 3px; border-radius: 3px;
+  margin-left: 2px; vertical-align: middle; pointer-events: none;
+}
+
+/* Condutas section */
+.cond-row { display: flex; align-items: center; gap: 4px; margin-bottom: 4px; flex-wrap: wrap; }
+.cond-label { font-weight: bold; font-size: 7pt; white-space: nowrap; min-width: 58px; color: #1b3a52; }
+.cond-input { flex: 1; font-size: 7pt; border: none; background: transparent; outline: none; font-family: Arial, sans-serif; min-width: 60px; }
+.cond-input:hover { background: rgba(255,255,200,0.4); border-radius: 2px; }
+.cond-input:focus { outline: 1px solid #1a6b8a; border-radius: 2px; }
+
+/* Quick-select chips */
+.chip-row { display: flex; flex-wrap: wrap; gap: 2px; margin-top: 1px; margin-bottom: 3px; }
+.chip {
+  font-size: 5.5pt; padding: 1px 4px; border-radius: 8px; cursor: pointer;
+  border: none; background: #dde8f0; color: #1b3a52; font-weight: bold;
+  white-space: nowrap; user-select: none; font-family: Arial, sans-serif;
+  transition: background 0.1s;
+}
+.chip:hover { background: #b8d4e8; }
+.chip.active { background: #1b3a52; color: #fff; }
+
+/* DVA inline infusion rows */
+.dva-btn {
+  font-size: 6pt; padding: 1px 4px; border-radius: 3px; border: 1px solid #2b8a7e;
+  background: #e6f4f1; cursor: pointer; color: #1b3a52; white-space: nowrap;
+}
+.dva-btn:hover { background: #2b8a7e; color: #fff; }
+.dva-inline-row {
+  display: flex; align-items: center; gap: 2px; margin-bottom: 2px; flex-wrap: nowrap;
+}
+.dva-drug-name {
+  width: 58px; font-size: 6.5pt; padding: 1px 3px; border: 1px solid #c0d0dd;
+  border-radius: 3px; background: #f8fbfd; color: #111; font-family: Arial, sans-serif;
+}
+.dva-mlh {
+  width: 32px; font-size: 6.5pt; padding: 1px 3px; border: 1px solid #c0d0dd;
+  border-radius: 3px; background: #f8fbfd; color: #111; font-family: Arial, sans-serif;
+  -moz-appearance: textfield;
+}
+.dva-mlh::-webkit-inner-spin-button, .dva-mlh::-webkit-outer-spin-button { -webkit-appearance: none; }
+.dva-unit { font-size: 5.5pt; color: #666; white-space: nowrap; }
+.dva-conc-sel {
+  font-size: 5.5pt; padding: 1px 2px; border: 1px solid #c0d0dd; border-radius: 3px;
+  background: #f8fbfd; color: #1b3a52; max-width: 90px; cursor: pointer;
+}
+.dva-calc-result {
+  font-size: 6pt; font-weight: bold; color: #2b8a7e; white-space: nowrap;
+  background: #e6f4f1; border-radius: 3px; padding: 1px 3px; min-width: 30px;
+}
+
+/* Condutas / pendencias textarea-like */
+.cond-area { min-height: 36px; font-size: 7pt; border: 1px solid #ddd; border-radius: 2px; padding: 2px 4px; }
+.cond-area-sm { min-height: 22px; }
+
+/* ===== DVA MODAL ===== */
+#dva-modal-overlay {
+  display: none; position: fixed; inset: 0;
+  background: rgba(0,0,0,0.55); z-index: 9000;
+  align-items: center; justify-content: center;
+}
+#dva-modal-overlay.open { display: flex; }
+#dva-modal {
+  background: #fff; border-radius: 8px; padding: 20px; min-width: 360px; max-width: 420px;
+  box-shadow: 0 8px 32px rgba(0,0,0,0.4);
+}
+#dva-modal h3 { font-size: 11pt; color: #1b3a52; margin-bottom: 14px; border-bottom: 2px solid #729fcf; padding-bottom: 6px; }
+#dva-modal label { font-size: 8pt; font-weight: bold; color: #1b3a52; display: block; margin-bottom: 3px; margin-top: 10px; }
+#dva-modal select, #dva-modal input[type="number"], #dva-modal input[type="text"] {
+  width: 100%; font-size: 8.5pt; padding: 5px 8px; border: 1px solid #c0d0dd; border-radius: 4px;
+  font-family: Arial, sans-serif; background: #f8fbfd; color: #111; outline: none;
+}
+#dva-modal select:focus, #dva-modal input:focus { border-color: #1a6b8a; }
+#dva-result {
+  margin-top: 14px; padding: 10px 14px; background: #e6f4f1; border-radius: 6px;
+  border-left: 4px solid #2b8a7e; font-size: 10pt; font-weight: bold; color: #1b3a52; min-height: 40px;
+}
+.dva-modal-btns { display: flex; gap: 8px; margin-top: 14px; justify-content: flex-end; }
+.dva-modal-btns button {
+  font-size: 8.5pt; padding: 6px 16px; border-radius: 4px; border: none; cursor: pointer; font-weight: bold;
+}
+#dva-apply-btn { background: #2b8a7e; color: #fff; }
+#dva-apply-btn:hover { background: #1e6b61; }
+#dva-cancel-btn { background: #e2e8f0; color: #444; }
+#dva-cancel-btn:hover { background: #c0ccd8; }
+
+/* ===== MULTI PRINT AREA ===== */
+#multi-print-area { display: none; }
+
+/* ===== PRINT STYLES ===== */
+@media print {
+  #navbar, #save-status, .dva-btn, .chip, .chip-row, .prec-chips, .print-dd { display: none !important; }
+  body { background: #fff; font-size: 7pt; }
+  #app-form-wrapper { padding: 0; }
+  .bed-section { display: block !important; }
+  .bed-table-wrap { overflow: visible; }
+  table.bed-table { min-width: unset; width: 100%; }
+  .print-header { display: flex !important; }
+
+  body.multi-print #app-form-wrapper { display: none !important; }
+  body.multi-print #multi-print-area { display: block !important; }
+  #multi-print-area .print-bed { page-break-after: always; }
+  #multi-print-area .print-bed:last-child { page-break-after: avoid; }
+}
+@media screen {
+  .print-header { display: none; }
+}
+.print-header {
+  display: flex; align-items: center; justify-content: space-between;
+  margin-bottom: 8px; padding: 7px 12px;
+  background: linear-gradient(135deg, #1b3a52 0%, #264d6b 100%);
+  border-radius: 6px; border-bottom: 3px solid #729fcf;
+}
+.ph-left { display: flex; flex-direction: column; gap: 1px; }
+.ph-hosp { font-size: 11pt; font-weight: bold; color: #fff; letter-spacing: 0.3px; }
+.ph-subnet { font-size: 7.5pt; color: #a8d8f0; }
+.ph-title { font-size: 11pt; font-weight: bold; color: #68d3c3; letter-spacing: 0.5px; text-align: center; }
+.ph-meta { font-size: 7pt; color: #a8d8f0; text-align: right; min-width: 120px; }
+
+/* Bullet list helper */
+.bullet-lines { min-height: 30px; }
+
+/* Scrollbar styling */
+::-webkit-scrollbar { width: 6px; height: 6px; }
+::-webkit-scrollbar-track { background: #f0f4f8; }
+::-webkit-scrollbar-thumb { background: #4a7a9b; border-radius: 3px; }
+</style>
+<!-- Firebase compat SDK -->
+<script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-firestore-compat.js"></script>
+</head>
+<body>
+
+<!-- ===== NAV BAR ===== -->
+<nav id="navbar">
+  <a href="index.html" class="home-btn" title="Página inicial">&#8592; Início</a>
+  <div class="nav-title">HSH &mdash; Passômetro Médico UTI</div>
+  <div class="nav-sep"></div>
+
+  <div class="nav-group">
+    <span class="nav-group-label">P1:</span>
+    <!-- Posto 1: 301-311 -->
+  </div>
+  <div class="nav-sep"></div>
+
+  <div class="nav-group">
+    <span class="nav-group-label">P2:</span>
+    <!-- Posto 2: 312-322 -->
+  </div>
+  <div class="nav-sep"></div>
+
+  <div class="nav-group">
+    <span class="nav-group-label">P3:</span>
+    <!-- Posto 3: 323-332 -->
+  </div>
+
+  <div class="nav-sep"></div>
+  <div class="global-fields">
+    <label>Médico(s): <input type="text" id="g-medico" placeholder="Nome(s)" style="width:150px"></label>
+    <label>Data: <input type="date" id="g-data"></label>
+    <div class="plantao-box">
+      <label><input type="checkbox" id="g-diurno"> Diurno</label>
+      <label><input type="checkbox" id="g-noturno"> Noturno</label>
+    </div>
+    <span id="save-status" class="idle">—</span>
+    <div class="print-dd">
+      <button class="print-dd-btn" onclick="togglePrintMenu()">Imprimir ▾</button>
+      <div class="print-dd-menu" id="print-dd-menu">
+        <button onclick="printBed('current')">Leito atual</button>
+        <button onclick="printBed('posto1')">Posto 1 (301–311)</button>
+        <button onclick="printBed('posto2')">Posto 2 (312–322)</button>
+        <button onclick="printBed('posto3')">Posto 3 (323–332)</button>
+      </div>
+    </div>
+  </div>
+</nav>
+
+<!-- ===== DVA MODAL ===== -->
+<div id="dva-modal-overlay" role="dialog" aria-modal="true">
+  <div id="dva-modal">
+    <h3>🧮 Calculadora DVA</h3>
+
+    <label>Droga</label>
+    <select id="dva-drug" onchange="onDvaDrugChange()">
+      <option value="Noradrenalina">Noradrenalina</option>
+      <option value="Dopamina">Dopamina</option>
+      <option value="Dobutamina">Dobutamina</option>
+      <option value="Adrenalina">Adrenalina</option>
+      <option value="Vasopressina">Vasopressina</option>
+      <option value="Nitroprussiato">Nitroprussiato</option>
+      <option value="Milrinona">Milrinona</option>
+    </select>
+
+    <label>Diluição</label>
+    <select id="dva-dil" onchange="calcDva()"></select>
+
+    <label>Velocidade de infusão (ml/h)</label>
+    <input type="number" id="dva-rate" min="0" step="0.1" placeholder="ex: 3.5" oninput="calcDva()">
+
+    <label>Peso do paciente (kg)</label>
+    <input type="number" id="dva-peso" min="1" step="0.1" placeholder="ex: 70" oninput="calcDva()">
+
+    <div id="dva-result">Preencha os campos acima para calcular.</div>
+
+    <div class="dva-modal-btns">
+      <button id="dva-cancel-btn" onclick="closeDvaModal()">Cancelar</button>
+      <button id="dva-apply-btn" onclick="applyDva()">Aplicar</button>
+    </div>
+  </div>
+</div>
+
+<!-- ===== APP FORM WRAPPER ===== -->
+<div id="app-form-wrapper">
+  <!-- Bed sections injected by JS -->
+</div>
+
+<!-- ===== MULTI PRINT AREA ===== -->
+<div id="multi-print-area"></div>
+
+<script>
+// ============================================================
+// FIREBASE
+// ============================================================
+const firebaseConfig = {
+  apiKey: "AIzaSyCmLD-7wWaLoeLdx3tcsKOEPGOVQEHb35U",
+  authDomain: "passometro-hsh.firebaseapp.com",
+  projectId: "passometro-hsh",
+  storageBucket: "passometro-hsh.firebasestorage.app",
+  messagingSenderId: "637798731065",
+  appId: "1:637798731065:web:3018bb135589057ab3ace8"
+};
+firebase.initializeApp(firebaseConfig);
+const db = firebase.firestore();
+const BED_COL  = 'med-beds';
+const GLOB_REF = db.collection('med-globals').doc('state');
+let isLoadingFromFirestore = false;
+
+// ============================================================
+// CONFIGURATION
+// ============================================================
+const POSTOS = {
+  posto1: { label: 'Posto 1', beds: Array.from({length:11}, (_,i) => 301+i) },
+  posto2: { label: 'Posto 2', beds: Array.from({length:11}, (_,i) => 312+i) },
+  posto3: { label: 'Posto 3', beds: Array.from({length:10}, (_,i) => 323+i) },
+};
+const ALL_BEDS = [...POSTOS.posto1.beds, ...POSTOS.posto2.beds, ...POSTOS.posto3.beds];
+let currentBed = ALL_BEDS[0];
+let dvaBedContext = null;
+let saveTimer = null;
+
+// DVA drug dilutions: { label, conc_mcg_ml, unit }
+const DVA_DRUGS = {
+  'Noradrenalina': [
+    { label: '4mg/250ml (16mcg/ml)', conc: 16, unit: 'mcg/kg/min' },
+    { label: '4mg/500ml (8mcg/ml)',  conc: 8,  unit: 'mcg/kg/min' },
+    { label: '8mg/250ml (32mcg/ml)', conc: 32, unit: 'mcg/kg/min' },
+  ],
+  'Dopamina':      [{ label: '200mg/250ml (800mcg/ml)', conc: 800, unit: 'mcg/kg/min' }],
+  'Dobutamina':    [{ label: '250mg/250ml (1000mcg/ml)', conc: 1000, unit: 'mcg/kg/min' }],
+  'Adrenalina': [
+    { label: '1mg/250ml (4mcg/ml)', conc: 4, unit: 'mcg/kg/min' },
+    { label: '2mg/250ml (8mcg/ml)', conc: 8, unit: 'mcg/kg/min' },
+  ],
+  'Vasopressina':   [{ label: '20UI/100ml (0.2UI/ml)', conc: 0.2, unit: 'UI/min', isVaso: true }],
+  'Nitroprussiato': [{ label: '50mg/250ml (200mcg/ml)', conc: 200, unit: 'mcg/kg/min' }],
+  'Milrinona':      [{ label: '10mg/50ml (200mcg/ml)',  conc: 200, unit: 'mcg/kg/min' }],
+};
+
+const CHIPS_O2 = ['Ar amb.','CN 1L','CN 2L','CN 3L','MR 28%','MR 35%','VNI','VM TQT','VM IOT'];
+const CHIPS_TEV = ['Enox 40mg','Hemofol 5000 12/12h','CPI','CI'];
+const CHIPS_DIETA = ['Jejum','VO livre','VO pastosa','VO líq.','SNE','GTT','NP'];
+
+// ============================================================
+// ATB DAY BADGE (global — called from template oninput and from setBedData)
+// ============================================================
+function calcDayBadge(inputEl, badgeId) {
+  const val = inputEl.value.trim();
+  const badge = document.getElementById(badgeId);
+  if (!badge) return;
+  const m = val.match(/(\d{1,2})\/(\d{1,2})(?:\/(\d{2,4}))?/);
+  if (!m) { badge.textContent = ''; return; }
+  let year = m[3] ? parseInt(m[3]) : new Date().getFullYear();
+  if (year < 100) year += 2000;
+  const atbDate = new Date(year, parseInt(m[2])-1, parseInt(m[1]));
+  const diff = Math.floor((Date.now() - atbDate) / 86400000);
+  badge.textContent = (diff >= 0 && diff < 365) ? 'D+' + diff : '';
+}
+
+// ============================================================
+// BUILD BED HTML
+// ============================================================
+function buildBedHTML(bedNum) {
+  const id = bedNum;
+  function f(name, extra='') { return `data-bed="${id}" data-f="${name}" ${extra}`; }
+  function inp(name, cls='inline-input', extra='') {
+    return `<input type="text" class="${cls}" ${f(name)} ${extra} autocomplete="off">`;
+  }
+  function acessoRow(key, label) {
+    return `<div class="acesso-row">
+      <div class="acesso-top">
+        <span class="acesso-lbl">${label}:</span>
+        <input type="text" class="inline-input" style="flex:1;font-size:6.5pt;" ${f(key+'_det')} placeholder="detalhes" autocomplete="off" oninput="scheduleSave(${id})">
+      </div>
+      <div class="acesso-date-row">
+        <span class="date-lbl">Inserção:</span>
+        <input type="text" class="inline-input date-inp" ${f(key+'_dt')} placeholder="__/__" autocomplete="off" oninput="scheduleSave(${id})">
+      </div>
+    </div>`;
+  }
+
+  function parRow(key, placeholder) {
+    return `<div class="par-slot">
+      <div class="par-header">
+        <input type="text" class="inline-input par-spec" ${f(key+'_nome')} placeholder="${placeholder || 'Especialidade'}" autocomplete="off" oninput="scheduleSave(${id})">
+        <input type="text" class="inline-input par-date" ${f(key+'_data')} placeholder="__/__" autocomplete="off" oninput="scheduleSave(${id})">
+      </div>
+      <div contenteditable="true" class="par-resp-area" data-f="${key+'_resp'}" data-bed="${id}"
+           data-ph="Resposta..." spellcheck="false" oninput="scheduleSave(${id})"></div>
+    </div>`;
+  }
+
+  function atbRow(key) {
+    const badgeId = key + '_bdg_' + id;
+    return `<div class="atb-row">
+      <input type="text" class="inline-input atb-name-inp" ${f(key+'_nome')} placeholder="antibiótico" autocomplete="off" oninput="scheduleSave(${id})">
+      <input type="text" class="inline-input atb-date-inp" ${f(key+'_data')} placeholder="__/__" autocomplete="off"
+        oninput="scheduleSave(${id}); calcDayBadge(this,'${badgeId}')">
+      <span class="d-badge" id="${badgeId}"></span>
+    </div>`;
+  }
+
+  function ce(name, cls='', extra='') {
+    return `<div contenteditable="true" class="${cls}" ${f(name)} ${extra}></div>`;
+  }
+  function chips(chipArr, targetField) {
+    return '<div class="chip-row">' +
+      chipArr.map(c => `<button type="button" class="chip" onclick="chipClick(this,'${targetField}',${id})" data-val="${c}">${c}</button>`).join('') +
+    '</div>';
+  }
+
+  return `
+<div class="print-header">
+  <div class="ph-left">
+    <span class="ph-hosp">Hospital Santa Helena</span>
+    <span class="ph-subnet">Rede D'Or &nbsp;·&nbsp; UTI 3º Andar</span>
+  </div>
+  <div class="ph-title">Passômetro Médico</div>
+  <div class="ph-meta" id="ph-meta-${id}"></div>
+</div>
+<div class="bed-table-wrap">
+<table class="bed-table">
+<thead>
+  <tr>
+    <th class="col-leito">LEITO / PACIENTE</th>
+    <th class="col-diag">DIAGNÓSTICOS</th>
+    <th class="col-comor">COMORBIDADES</th>
+    <th class="col-exames">EXAMES / EVOLUÇÃO</th>
+    <th class="col-par">PARECERES</th>
+    <th class="col-acessos">ACESSOS</th>
+    <th class="col-atb">ATB</th>
+    <th class="col-cond">CONDUTAS</th>
+  </tr>
+</thead>
+<tbody>
+<tr>
+  <!-- COL 1: LEITO -->
+  <td class="col-leito col-leito-cell" id="leito-cell-${id}">
+    <div class="leito-head">
+      <span class="leito-num">${id}</span>
+      <div contenteditable="true" class="leito-pac-name" data-bed="${id}" data-f="pac_nome"
+           spellcheck="false" oninput="scheduleSave(${id})"></div>
+    </div>
+    <div class="leito-body">
+      <div class="lf-row"><span class="lf-lbl">Peso</span><input type="number" class="lf-inp" ${f('peso')} step="0.1" min="0" placeholder="kg" oninput="scheduleSave(${id})"></div>
+      <div class="lf-row"><span class="lf-lbl">Idade</span><input type="text" class="lf-inp" ${f('idade')} autocomplete="off" oninput="scheduleSave(${id})"></div>
+      <div class="lf-row"><span class="lf-lbl">DN</span><input type="text" class="lf-inp" ${f('dn')} placeholder="dd/mm/aa" autocomplete="off" oninput="autoCalcIdade(this,${id})"></div>
+      <div class="lf-row"><span class="lf-lbl">ADM</span><input type="text" class="lf-inp" ${f('adm')} autocomplete="off" oninput="scheduleSave(${id})"></div>
+      <div class="lf-row"><span class="lf-lbl">Convênio</span><input type="text" class="lf-inp" ${f('convenio')} autocomplete="off" oninput="scheduleSave(${id})"></div>
+      <div class="lf-row"><span class="lf-lbl">PT</span><input type="text" class="lf-inp" ${f('pt')} autocomplete="off" oninput="scheduleSave(${id})"></div>
+      <div class="lf-row"><span class="lf-lbl">AT</span><input type="text" class="lf-inp" ${f('at')} autocomplete="off" oninput="scheduleSave(${id})"></div>
+      <div class="prec-section">
+        <div class="prec-section-lbl">Precaução</div>
+        <input type="hidden" ${f('prec_tipo')} value="PADRÃO">
+        <div class="prec-chips">
+          <button type="button" class="prec-chip" data-type="PADRÃO"    onclick="setPrecaucao(${id},'PADRÃO')">PADRÃO</button>
+          <button type="button" class="prec-chip" data-type="CONTATO"   onclick="setPrecaucao(${id},'CONTATO')">CONTATO</button>
+          <button type="button" class="prec-chip" data-type="GOTÍCULAS" onclick="setPrecaucao(${id},'GOTÍCULAS')">GOTÍCULAS</button>
+          <button type="button" class="prec-chip" data-type="AEROSSOL"  onclick="setPrecaucao(${id},'AEROSSOL')">AEROSSOL</button>
+        </div>
+      </div>
+    </div>
+  </td>
+
+  <!-- COL 2: DIAGNÓSTICOS -->
+  <td class="col-diag">
+    ${ce('diagnosticos','bullet-lines','')}
+    <div style="margin-top:6px; display:flex; gap:4px; align-items:baseline; font-size:7pt;">
+      <label style="font-weight:bold;white-space:nowrap;">Alergias:</label>
+      ${inp('alergias')}
+    </div>
+  </td>
+
+  <!-- COL 4: COMORBIDADES -->
+  <td class="col-comor">
+    ${ce('comorbidades','bullet-lines','')}
+  </td>
+
+  <!-- COL 5: EXAMES -->
+  <td class="col-exames">
+    ${ce('exames','bullet-lines','')}
+  </td>
+
+  <!-- COL 5: PARECERES -->
+  <td class="col-par">
+    ${parRow('par1', 'Especialidade')}
+    ${parRow('par2', 'Especialidade')}
+    ${parRow('par3', 'Especialidade')}
+    ${parRow('par4', 'Especialidade')}
+  </td>
+
+  <!-- COL 6: ACESSOS -->
+  <td class="col-acessos">
+    ${acessoRow('avp',    'AVP')}
+    ${acessoRow('cvc',    'CVC')}
+    ${acessoRow('pai',    'PAI')}
+    ${acessoRow('picc',   'PICC')}
+    ${acessoRow('svd',    'SVD')}
+    ${acessoRow('tqt',    'TQT')}
+    ${acessoRow('ac_out', 'Outro')}
+  </td>
+
+  <!-- COL 7: ATB -->
+  <td class="col-atb">
+    <div class="atb-section">
+      <span class="atb-label">Atual:</span>
+      ${atbRow('atb1')}
+      ${atbRow('atb2')}
+      ${atbRow('atb3')}
+    </div>
+    <div class="atb-section" style="margin-top:5px;">
+      <span class="atb-label">Prévio:</span>
+      ${atbRow('atbp1')}
+      ${atbRow('atbp2')}
+    </div>
+    <div class="atb-section" style="margin-top:5px;">
+      <span class="atb-label">Culturas:</span>
+      ${ce('atb_culturas','bullet-lines','')}
+    </div>
+  </td>
+
+  <!-- COL 8: CONDUTAS -->
+  <td class="col-cond">
+    <div class="cond-row">
+      <span class="cond-label">O2:</span>
+      <input type="text" class="cond-input" ${f('o2')} autocomplete="off">
+    </div>
+    ${chips(CHIPS_O2, 'o2')}
+
+    <div class="cond-row">
+      <span class="cond-label">TEV:</span>
+      <input type="text" class="cond-input" ${f('tev')} autocomplete="off">
+    </div>
+    ${chips(CHIPS_TEV, 'tev')}
+
+    <div style="margin-top:4px;">
+      <span class="cond-label" style="display:block;margin-bottom:2px;">Infusões contínuas:</span>
+      ${[1,2,3,4].map(n => `
+      <div class="dva-inline-row" id="dva-row-${id}-${n}">
+        <input type="text" class="dva-drug-name" ${f('dva'+n+'_nome')} placeholder="Droga ${n}" autocomplete="off"
+          oninput="calcInfusao(${id},${n});scheduleSave(${id})">
+        <input type="number" class="dva-mlh" ${f('dva'+n+'_mlh')} placeholder="ml/h" step="0.1" min="0"
+          oninput="calcInfusao(${id},${n});scheduleSave(${id})">
+        <span class="dva-unit">ml/h</span>
+        <select class="dva-conc-sel" ${f('dva'+n+'_conc')} id="dva-conc-${id}-${n}"
+          onchange="calcInfusao(${id},${n});scheduleSave(${id})">
+          <option value="">diluição</option>
+          <option value="16">Nora 4mg/250ml=16mcg/ml</option>
+          <option value="8">Nora 4mg/500ml=8mcg/ml</option>
+          <option value="32">Nora 8mg/250ml=32mcg/ml</option>
+          <option value="800">Dopa 200mg/250ml=800mcg/ml</option>
+          <option value="1000">Dobut 250mg/250ml=1000mcg/ml</option>
+          <option value="4">Adre 1mg/250ml=4mcg/ml</option>
+          <option value="8">Adre 2mg/250ml=8mcg/ml</option>
+          <option value="200">Nitro 50mg/250ml=200mcg/ml</option>
+          <option value="200">Milri 10mg/50ml=200mcg/ml</option>
+        </select>
+        <span class="dva-calc-result" id="dva-calc-${id}-${n}"></span>
+      </div>`).join('')}
+    </div>
+
+    <div class="cond-row" style="margin-top:4px;">
+      <span class="cond-label">Dieta:</span>
+      <input type="text" class="cond-input" ${f('dieta')} autocomplete="off">
+    </div>
+    ${chips(CHIPS_DIETA, 'dieta')}
+
+    <div class="cond-row" style="margin-top:2px;">
+      <span class="cond-label">Sedação:</span>
+      <input type="text" class="cond-input" ${f('sedacao')} autocomplete="off">
+    </div>
+
+    <div class="cond-row">
+      <span class="cond-label">Corticóide:</span>
+      <input type="text" class="cond-input" ${f('corticoide')} autocomplete="off">
+    </div>
+
+    <div style="margin-top:5px;">
+      <span class="atb-label">Condutas:</span>
+      ${ce('condutas','cond-area','')}
+    </div>
+
+    <div style="margin-top:6px;">
+      <span class="atb-label">Pendências:</span>
+      ${ce('pendencias','cond-area cond-area-sm','')}
+    </div>
+  </td>
+</tr>
+
+<!-- BH + LABS ROW -->
+<tr class="bh-labs-row">
+  <td colspan="8">
+    <div class="bh-labs-wrap">
+      <div class="bh-block">
+        <div class="bh-block-title">⚖️ Balanço Hídrico (ml)</div>
+        <div class="bh-grid">
+          <div class="bh-field"><b>Diurese:</b><input type="text" ${f('bh_diurese')} placeholder="ml" oninput="scheduleSave(${id})"></div>
+          <div class="bh-field"><b>Evacuação:</b><input type="text" ${f('bh_evac')} placeholder="ml" oninput="scheduleSave(${id})"></div>
+          <div class="bh-field"><b>Vômito:</b><input type="text" ${f('bh_vomito')} placeholder="ml" oninput="scheduleSave(${id})"></div>
+          <div class="bh-field"><b>HD:</b><input type="text" ${f('bh_hd')} placeholder="ml" oninput="scheduleSave(${id})"></div>
+          <div class="bh-field"><b>BH 24h:</b><input type="text" ${f('bh_24h')} placeholder="ml" oninput="scheduleSave(${id})"></div>
+          <div class="bh-field"><b>Febre:</b><input type="text" ${f('bh_febre')} placeholder="°C" oninput="scheduleSave(${id})"></div>
+          <div class="bh-field"><b>Glicemia:</b><input type="text" ${f('bh_glicemia')} placeholder="mg/dL" oninput="scheduleSave(${id})"></div>
+        </div>
+      </div>
+      <div class="bh-block">
+        <div class="bh-block-title">🔬 Exames Laboratoriais</div>
+
+        <div class="lab-group-lbl">Hemograma</div>
+        <div class="bh-grid" style="margin-bottom:5px;">
+          <div class="bh-field"><b>Hb:</b><input type="text" ${f('lab_hb')} placeholder="g/dL" oninput="scheduleSave(${id})"></div>
+          <div class="bh-field"><b>Leucócitos:</b><input type="text" ${f('lab_leuc')} placeholder="k/µL" oninput="scheduleSave(${id})"></div>
+          <div class="bh-field"><b>Plaquetas:</b><input type="text" ${f('lab_plaq')} placeholder="k/µL" oninput="scheduleSave(${id})"></div>
+        </div>
+
+        <div class="lab-group-lbl">Eletrólitos / Metabólico</div>
+        <div class="bh-grid" style="margin-bottom:5px;">
+          <div class="bh-field"><b>Na:</b><input type="text" ${f('lab_na')} placeholder="mEq/L" oninput="scheduleSave(${id})"></div>
+          <div class="bh-field"><b>K:</b><input type="text" ${f('lab_k')} placeholder="mEq/L" oninput="scheduleSave(${id})"></div>
+          <div class="bh-field"><b>Mg:</b><input type="text" ${f('lab_mg')} placeholder="mg/dL" oninput="scheduleSave(${id})"></div>
+          <div class="bh-field"><b>Ca:</b><input type="text" ${f('lab_ca')} placeholder="mg/dL" oninput="scheduleSave(${id})"></div>
+          <div class="bh-field"><b>Lactato:</b><input type="text" ${f('lab_lactato')} placeholder="mmol/L" oninput="scheduleSave(${id})"></div>
+          <div class="bh-field"><b>BIC:</b><input type="text" ${f('lab_bic')} placeholder="mEq/L" oninput="scheduleSave(${id})"></div>
+          <div class="bh-field"><b>Fósforo:</b><input type="text" ${f('lab_p')} placeholder="mg/dL" oninput="scheduleSave(${id})"></div>
+        </div>
+
+        <div class="lab-group-lbl">Renal / Inflamatório</div>
+        <div class="bh-grid" style="margin-bottom:5px;">
+          <div class="bh-field"><b>Cr:</b><input type="text" ${f('lab_cr')} placeholder="mg/dL" oninput="scheduleSave(${id})"></div>
+          <div class="bh-field"><b>Ureia:</b><input type="text" ${f('lab_ur')} placeholder="mg/dL" oninput="scheduleSave(${id})"></div>
+          <div class="bh-field"><b>PCR:</b><input type="text" ${f('lab_pcr')} placeholder="mg/L" oninput="scheduleSave(${id})"></div>
+          <div class="bh-field"><b>PCT:</b><input type="text" ${f('lab_pcal')} placeholder="ng/mL" oninput="scheduleSave(${id})"></div>
+        </div>
+
+        <div class="lab-group-lbl">Hepático</div>
+        <div class="bh-grid">
+          <div class="bh-field"><b>TGO:</b><input type="text" ${f('lab_tgo')} placeholder="U/L" oninput="scheduleSave(${id})"></div>
+          <div class="bh-field"><b>TGP:</b><input type="text" ${f('lab_tgp')} placeholder="U/L" oninput="scheduleSave(${id})"></div>
+          <div class="bh-field"><b>BT:</b><input type="text" ${f('lab_bt')} placeholder="mg/dL" oninput="scheduleSave(${id})"></div>
+          <div class="bh-field"><b>BD:</b><input type="text" ${f('lab_bd')} placeholder="mg/dL" oninput="scheduleSave(${id})"></div>
+          <div class="bh-field"><b>BI:</b><input type="text" ${f('lab_bi')} placeholder="mg/dL" oninput="scheduleSave(${id})"></div>
+          <div class="bh-field"><b>Outros:</b><input type="text" ${f('lab_outros')} placeholder="..." style="width:100px;" oninput="scheduleSave(${id})"></div>
+        </div>
+      </div>
+    </div>
+  </td>
+</tr>
+</tbody>
+</table>
+</div>`;
+}
+
+// ============================================================
+// BUILD NAV BUTTONS
+// ============================================================
+function buildNav() {
+  const navbar = document.getElementById('navbar');
+  const groups = navbar.querySelectorAll('.nav-group');
+  const postoKeys = ['posto1','posto2','posto3'];
+  postoKeys.forEach((pk, gi) => {
+    const grp = groups[gi];
+    POSTOS[pk].beds.forEach(b => {
+      const btn = document.createElement('button');
+      btn.type = 'button';
+      btn.className = 'bed-btn';
+      btn.id = `btn-bed-${b}`;
+      btn.textContent = b;
+      btn.setAttribute('data-bed', b);
+      btn.innerHTML = `${b}<span class="dot"></span>`;
+      btn.onclick = () => switchBed(b);
+      grp.appendChild(btn);
+    });
+  });
+}
+
+// ============================================================
+// BUILD BED SECTIONS
+// ============================================================
+function buildBedSections() {
+  const wrapper = document.getElementById('app-form-wrapper');
+  ALL_BEDS.forEach(b => {
+    const sec = document.createElement('div');
+    sec.className = 'bed-section';
+    sec.id = `bed-section-${b}`;
+    sec.innerHTML = buildBedHTML(b);
+    wrapper.appendChild(sec);
+  });
+}
+
+// ============================================================
+// SWITCH BED
+// ============================================================
+function switchBed(bedNum) {
+  document.querySelectorAll('.bed-section').forEach(s => s.classList.remove('visible'));
+  document.querySelectorAll('.bed-btn').forEach(b => b.classList.remove('active'));
+
+  currentBed = bedNum;
+  document.getElementById(`bed-section-${bedNum}`).classList.add('visible');
+  const btn = document.getElementById(`btn-bed-${bedNum}`);
+  btn.classList.add('active');
+  btn.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'nearest' });
+
+  updatePrintMeta(bedNum);
+}
+
+// ============================================================
+// FIRESTORE SAVE/LOAD
+// ============================================================
+function getBedData(bedNum) {
+  const data = {};
+  const section = document.getElementById(`bed-section-${bedNum}`);
+  if (!section) return data;
+
+  section.querySelectorAll('[data-f]').forEach(el => {
+    const field = el.getAttribute('data-f');
+    if (el.tagName === 'INPUT' || el.tagName === 'SELECT') {
+      data[field] = el.value;
+    } else if (el.getAttribute('contenteditable') === 'true') {
+      data[field] = el.innerText;
+    }
+  });
+  return data;
+}
+
+function setBedData(bedNum, data) {
+  const section = document.getElementById(`bed-section-${bedNum}`);
+  if (!section || !data) return;
+
+  section.querySelectorAll('[data-f]').forEach(el => {
+    const field = el.getAttribute('data-f');
+    if (!(field in data)) return;
+    if (el.tagName === 'INPUT' || el.tagName === 'SELECT') {
+      el.value = data[field];
+    } else if (el.getAttribute('contenteditable') === 'true') {
+      el.innerText = data[field];
+    }
+  });
+
+  if (data.prec_tipo) setPrecaucaoUI(bedNum, data.prec_tipo, false);
+  [1,2,3,4].forEach(n => calcInfusao(bedNum, n));
+  ['atb1','atb2','atb3','atbp1','atbp2'].forEach(key => {
+    const dateEl = section.querySelector(`[data-f="${key}_data"]`);
+    const badgeId = key + '_bdg_' + bedNum;
+    if (dateEl) calcDayBadge(dateEl, badgeId);
+  });
+}
+
+function scheduleSave(bedNum) {
+  if (isLoadingFromFirestore) return;
+  if (!bedNum) bedNum = currentBed;
+  showSaveStatus('saving');
+  clearTimeout(saveTimer);
+  saveTimer = setTimeout(() => doSave(bedNum), 600);
+}
+
+function doSave(bedNum) {
+  const data = getBedData(bedNum);
+  db.collection(BED_COL).doc(`bed-${bedNum}`).set(data)
+    .then(() => {
+      updateBedBtnStatus(bedNum, data);
+      showSaveStatus('saved');
+      setTimeout(() => showSaveStatus('idle'), 2000);
+    })
+    .catch(err => {
+      console.error('Erro ao salvar:', err);
+      showSaveStatus('error');
+      setTimeout(() => showSaveStatus('idle'), 3000);
+    });
+}
+
+function loadAll() {
+  showSaveStatus('saving');
+
+  // Escuta em tempo real todos os leitos
+  db.collection(BED_COL).onSnapshot(snapshot => {
+    isLoadingFromFirestore = true;
+    snapshot.docChanges().forEach(change => {
+      if (change.type === 'added' || change.type === 'modified') {
+        const bedNum = parseInt(change.doc.id.replace('bed-', ''));
+        if (ALL_BEDS.includes(bedNum)) {
+          setBedData(bedNum, change.doc.data());
+          updateBedBtnStatus(bedNum, change.doc.data());
+        }
+      }
+    });
+    isLoadingFromFirestore = false;
+    showSaveStatus('idle');
+  }, err => {
+    console.error('Erro ao carregar:', err);
+    showSaveStatus('error');
+  });
+
+  // Escuta campos globais (médico, data, plantão)
+  GLOB_REF.onSnapshot(doc => {
+    if (doc.exists) {
+      const g = doc.data();
+      if (g.medico  != null) document.getElementById('g-medico').value = g.medico;
+      if (g.data    != null) document.getElementById('g-data').value   = g.data;
+      if (g.diurno  != null) document.getElementById('g-diurno').checked  = g.diurno;
+      if (g.noturno != null) document.getElementById('g-noturno').checked = g.noturno;
+    }
+  });
+}
+
+let globalSaveTimer = null;
+function saveGlobal() {
+  clearTimeout(globalSaveTimer);
+  globalSaveTimer = setTimeout(() => {
+    GLOB_REF.set({
+      medico:  document.getElementById('g-medico').value,
+      data:    document.getElementById('g-data').value,
+      diurno:  document.getElementById('g-diurno').checked,
+      noturno: document.getElementById('g-noturno').checked,
+    }).catch(err => console.error('Erro ao salvar global:', err));
+  }, 800);
+}
+
+// ============================================================
+// SAVE STATUS
+// ============================================================
+function showSaveStatus(state) {
+  const el = document.getElementById('save-status');
+  el.className = state;
+  if      (state === 'saving') { el.textContent = 'Salvando...'; }
+  else if (state === 'saved')  { el.textContent = 'Salvo ✓'; }
+  else if (state === 'error')  { el.textContent = 'Erro ✗'; }
+  else                         { el.textContent = '—'; }
+}
+
+// ============================================================
+// BED BUTTON STATUS
+// ============================================================
+function updateBedBtnStatus(bedNum, data) {
+  const btn = document.getElementById(`btn-bed-${bedNum}`);
+  if (!btn) return;
+  const hasData = !!(data && data.pac_nome && data.pac_nome.trim());
+  btn.classList.toggle('has-data', hasData);
+}
+
+// ============================================================
+// AUTO SAVE ON INPUT
+// ============================================================
+function attachInputListeners() {
+  document.getElementById('app-form-wrapper').addEventListener('input', e => {
+    const el = e.target;
+    const bed = parseInt(el.getAttribute('data-bed'));
+    if (bed) scheduleSave(bed);
+  });
+
+  document.getElementById('app-form-wrapper').addEventListener('keyup', e => {
+    const el = e.target;
+    if (el.getAttribute('contenteditable') === 'true') {
+      const bed = parseInt(el.getAttribute('data-bed'));
+      if (bed) {
+        scheduleSave(bed);
+        // ATB badge scanning
+        if (el.classList.contains('atb-dated')) {
+          scheduleAtbBadge(el, bed);
+        }
+      }
+    }
+  });
+
+  // Global fields
+  ['g-medico','g-data','g-diurno','g-noturno'].forEach(id => {
+    document.getElementById(id).addEventListener('change', () => {
+      saveGlobal();
+      updatePrintMeta(currentBed);
+    });
+  });
+}
+
+// ============================================================
+// AUTO CALCULATE IDADE FROM DN
+// ============================================================
+function autoCalcIdade(input, bedNum) {
+  const val = input.value.trim();
+  // Accept dd/mm/yyyy or dd/mm/yy
+  const m = val.match(/^(\d{1,2})\/(\d{1,2})\/(\d{2,4})$/);
+  if (!m) return;
+  let day = parseInt(m[1]), month = parseInt(m[2]), year = parseInt(m[3]);
+  if (m[3].length === 2) year += year < 30 ? 2000 : 1900;
+  const dob = new Date(year, month - 1, day);
+  if (isNaN(dob.getTime())) return;
+  const now = new Date();
+  let age = now.getFullYear() - dob.getFullYear();
+  const monthDiff = now.getMonth() - dob.getMonth();
+  if (monthDiff < 0 || (monthDiff === 0 && now.getDate() < dob.getDate())) age--;
+  if (age < 0 || age > 130) return;
+
+  const section = document.getElementById(`bed-section-${bedNum}`);
+  const idadeInput = section.querySelector('[data-f="idade"]');
+  if (idadeInput) {
+    idadeInput.value = age + ' anos';
+    scheduleSave(bedNum);
+  }
+}
+
+// ============================================================
+// PRECAUÇÃO COLOR CODING
+// ============================================================
+function setPrecaucao(bedNum, tipo) {
+  setPrecaucaoUI(bedNum, tipo, true);
+  scheduleSave(bedNum);
+}
+
+function setPrecaucaoUI(bedNum, tipo, saveHidden) {
+  const section = document.getElementById(`bed-section-${bedNum}`);
+  const cell = document.getElementById(`leito-cell-${bedNum}`);
+  const hiddenInput = section.querySelector('[data-f="prec_tipo"]');
+  const chips = section.querySelectorAll('.prec-chip');
+
+  if (hiddenInput && saveHidden) hiddenInput.value = tipo;
+
+  // Remove old classes
+  cell.classList.remove('prec-bg-padrao','prec-bg-contato','prec-bg-goticular','prec-bg-aerossol');
+
+  chips.forEach(c => c.classList.remove('selected'));
+  const activeChip = section.querySelector(`.prec-chip[data-type="${tipo}"]`);
+  if (activeChip) activeChip.classList.add('selected');
+
+  if (tipo === 'CONTATO')   cell.classList.add('prec-bg-contato');
+  else if (tipo === 'GOTÍCULAS') cell.classList.add('prec-bg-goticular');
+  else if (tipo === 'AEROSSOL')  cell.classList.add('prec-bg-aerossol');
+  else cell.classList.add('prec-bg-padrao');
+}
+
+// ============================================================
+// QUICK-SELECT CHIPS
+// ============================================================
+function chipClick(btn, fieldName, bedNum) {
+  const val = btn.getAttribute('data-val');
+  const section = document.getElementById(`bed-section-${bedNum}`);
+  const input = section.querySelector(`[data-f="${fieldName}"]`);
+  if (!input) return;
+
+  // Toggle
+  if (input.value === val) {
+    input.value = '';
+    btn.classList.remove('active');
+  } else {
+    input.value = val;
+    // Deactivate siblings
+    const chipRow = btn.closest('.chip-row');
+    if (chipRow) chipRow.querySelectorAll('.chip').forEach(c => c.classList.remove('active'));
+    btn.classList.add('active');
+  }
+  scheduleSave(bedNum);
+}
+
+// Sync chip active state on load
+function syncChips(bedNum) {
+  const section = document.getElementById(`bed-section-${bedNum}`);
+  section.querySelectorAll('.chip').forEach(chip => {
+    const row = chip.closest('.chip-row');
+    if (!row) return;
+    // Find adjacent cond-row above
+    let fieldName = null;
+    const rows = section.querySelectorAll('[data-f]');
+    // Find by onclick attribute
+    const onclick = chip.getAttribute('onclick') || '';
+    const match = onclick.match(/chipClick\(this,'(\w+)'/);
+    if (match) fieldName = match[1];
+    if (!fieldName) return;
+    const input = section.querySelector(`[data-f="${fieldName}"]`);
+    if (input && input.value === chip.getAttribute('data-val')) {
+      chip.classList.add('active');
+    }
+  });
+}
+
+// ============================================================
+// INLINE INFUSION CALCULATOR
+// ============================================================
+function calcInfusao(bedId, rowN) {
+  const mlhEl = document.querySelector(`[data-bed="${bedId}"][data-f="dva${rowN}_mlh"]`);
+  const concEl = document.getElementById(`dva-conc-${bedId}-${rowN}`);
+  const resEl  = document.getElementById(`dva-calc-${bedId}-${rowN}`);
+  if (!mlhEl || !concEl || !resEl) return;
+  const mlh  = parseFloat(mlhEl.value);
+  const conc = parseFloat(concEl.value);
+  const pesoEl = document.querySelector(`[data-bed="${bedId}"][data-f="peso"]`);
+  const peso = parseFloat(pesoEl ? pesoEl.value : '');
+  if (!conc || isNaN(mlh) || mlh <= 0) { resEl.textContent = ''; return; }
+  if (conc <= 1) {
+    // Vasopressina: UI/min
+    const uiMin = (mlh * conc) / 60;
+    resEl.textContent = uiMin.toFixed(3) + ' UI/min';
+  } else if (isNaN(peso) || peso <= 0) {
+    const mcgMin = (mlh * conc) / 60;
+    resEl.textContent = mcgMin.toFixed(1) + ' mcg/min';
+  } else {
+    const mcgKgMin = (mlh * conc) / (60 * peso);
+    resEl.textContent = mcgKgMin.toFixed(3) + ' mcg/kg/min';
+  }
+}
+
+// ============================================================
+// DVA CALCULATOR MODAL
+// ============================================================
+function openDvaModal(bedNum) {
+  dvaBedContext = bedNum;
+  const section = document.getElementById(`bed-section-${bedNum}`);
+  const pesoEl = section.querySelector('[data-f="peso"]');
+  if (pesoEl) document.getElementById('dva-peso').value = pesoEl.value;
+
+  onDvaDrugChange();
+  document.getElementById('dva-rate').value = '';
+  document.getElementById('dva-result').textContent = 'Preencha os campos acima para calcular.';
+
+  document.getElementById('dva-modal-overlay').classList.add('open');
+}
+
+function closeDvaModal() {
+  document.getElementById('dva-modal-overlay').classList.remove('open');
+  dvaBedContext = null;
+}
+
+function onDvaDrugChange() {
+  const drug = document.getElementById('dva-drug').value;
+  const dilSel = document.getElementById('dva-dil');
+  dilSel.innerHTML = '';
+  const options = DVA_DRUGS[drug] || [];
+  options.forEach((opt, i) => {
+    const o = document.createElement('option');
+    o.value = i;
+    o.textContent = opt.label;
+    dilSel.appendChild(o);
+  });
+  calcDva();
+}
+
+function calcDva() {
+  const drug = document.getElementById('dva-drug').value;
+  const dilIdx = parseInt(document.getElementById('dva-dil').value) || 0;
+  const rate = parseFloat(document.getElementById('dva-rate').value);
+  const peso = parseFloat(document.getElementById('dva-peso').value);
+  const resEl = document.getElementById('dva-result');
+
+  const options = DVA_DRUGS[drug];
+  if (!options || !options[dilIdx]) { resEl.textContent = 'Droga não encontrada.'; return; }
+  const dil = options[dilIdx];
+
+  if (isNaN(rate) || rate <= 0) { resEl.textContent = 'Informe a velocidade de infusão (ml/h).'; return; }
+
+  if (dil.isVaso) {
+    // UI/min = (ml/h × conc_UI_per_ml) / 60
+    const uiMin = (rate * dil.conc) / 60;
+    resEl.innerHTML = `<b>${drug}</b><br>${uiMin.toFixed(4)} UI/min<br><small>(${dil.label}, ${rate} ml/h)</small>`;
+    return;
+  }
+
+  if (isNaN(peso) || peso <= 0) { resEl.textContent = 'Informe o peso do paciente (kg).'; return; }
+  // mcg/kg/min = (ml/h × conc_mcg_ml) / (60 × peso)
+  const dose = (rate * dil.conc) / (60 * peso);
+  resEl.innerHTML = `<b>${drug}</b><br>${dose.toFixed(3)} mcg/kg/min<br><small>(${dil.label}, ${rate} ml/h, ${peso} kg)</small>`;
+}
+
+function applyDva() {
+  if (!dvaBedContext) return;
+  const drug = document.getElementById('dva-drug').value;
+  const dilIdx = parseInt(document.getElementById('dva-dil').value) || 0;
+  const rate = parseFloat(document.getElementById('dva-rate').value);
+  const peso = parseFloat(document.getElementById('dva-peso').value);
+
+  const options = DVA_DRUGS[drug];
+  if (!options || !options[dilIdx]) return;
+  const dil = options[dilIdx];
+
+  let str = '';
+  if (dil.isVaso) {
+    const uiMin = (rate * dil.conc) / 60;
+    str = `${drug} ${uiMin.toFixed(4)} UI/min (${dil.label}, ${rate} ml/h)`;
+  } else {
+    const dose = (rate * dil.conc) / (60 * peso);
+    str = `${drug} ${dose.toFixed(3)} mcg/kg/min (${dil.label}, ${rate} ml/h)`;
+  }
+
+  const section = document.getElementById(`bed-section-${dvaBedContext}`);
+  const dvaInp = section.querySelector('[data-f="dva"]');
+  if (dvaInp) dvaInp.value = str;
+  scheduleSave(dvaBedContext);
+  closeDvaModal();
+}
+
+// Close modal on overlay click
+document.getElementById('dva-modal-overlay').addEventListener('click', function(e) {
+  if (e.target === this) closeDvaModal();
+});
+
+// ============================================================
+// ATB D+ BADGE
+// ============================================================
+const ATB_BADGE_TIMERS = {};
+function scheduleAtbBadge(el, bedNum) {
+  clearTimeout(ATB_BADGE_TIMERS[bedNum + el.id]);
+  ATB_BADGE_TIMERS[bedNum + el.id] = setTimeout(() => injectAtbBadges(el), 800);
+}
+
+function injectAtbBadges(el) {
+  // Store cursor position
+  const sel = window.getSelection();
+  const savedRange = sel && sel.rangeCount ? sel.getRangeAt(0).cloneRange() : null;
+
+  // Get plain text, find dates, rebuild
+  const text = el.innerText;
+  const today = new Date();
+  today.setHours(0,0,0,0);
+
+  // We inject badges in a separate overlay approach — instead, we work with HTML
+  // Simple approach: replace content with marked-up version
+  // We'll only badge if text actually changed to avoid cursor reset issues
+  let html = el.innerHTML;
+
+  // Remove old badges
+  const tempDiv = document.createElement('div');
+  tempDiv.innerHTML = html;
+  tempDiv.querySelectorAll('.d-badge').forEach(b => b.remove());
+
+  // Work with text nodes to inject badges
+  const walker = document.createTreeWalker(tempDiv, NodeFilter.SHOW_TEXT);
+  const textNodes = [];
+  let node;
+  while ((node = walker.nextNode())) textNodes.push(node);
+
+  const DATE_RE = /\b(\d{1,2})\/(\d{1,2})(?:\/(\d{2,4}))?\b/g;
+  textNodes.forEach(tn => {
+    const parent = tn.parentNode;
+    if (parent && parent.classList && parent.classList.contains('d-badge')) return;
+    const rawText = tn.textContent;
+    if (!DATE_RE.test(rawText)) return;
+    DATE_RE.lastIndex = 0;
+
+    const frag = document.createDocumentFragment();
+    let lastIdx = 0;
+    let m;
+    while ((m = DATE_RE.exec(rawText)) !== null) {
+      const day = parseInt(m[1]), month = parseInt(m[2]);
+      let year = m[3] ? parseInt(m[3]) : today.getFullYear();
+      if (m[3] && m[3].length === 2) year += year < 30 ? 2000 : 1900;
+      const dateObj = new Date(year, month - 1, day);
+      dateObj.setHours(0,0,0,0);
+      if (isNaN(dateObj.getTime()) || month > 12 || day > 31) continue;
+      const diff = Math.round((today - dateObj) / 86400000);
+      if (diff < 0 || diff > 365) continue;
+
+      frag.appendChild(document.createTextNode(rawText.slice(lastIdx, m.index + m[0].length)));
+      const badge = document.createElement('span');
+      badge.className = 'd-badge';
+      badge.textContent = `D+${diff}`;
+      frag.appendChild(badge);
+      lastIdx = m.index + m[0].length;
+    }
+    if (lastIdx === 0) return; // No replacements
+    frag.appendChild(document.createTextNode(rawText.slice(lastIdx)));
+    parent.replaceChild(frag, tn);
+  });
+
+  el.innerHTML = tempDiv.innerHTML;
+
+  // Restore cursor to end (simple approach)
+  if (savedRange) {
+    try { sel.removeAllRanges(); sel.addRange(savedRange); } catch(e) {}
+  }
+}
+
+// Run ATB badges on all loaded ATB fields
+function initAtbBadges() {
+  document.querySelectorAll('.atb-dated').forEach(el => {
+    if (el.innerText.trim()) injectAtbBadges(el);
+  });
+}
+
+// ============================================================
+// PRINT
+// ============================================================
+function togglePrintMenu() {
+  document.getElementById('print-dd-menu').classList.toggle('open');
+}
+document.addEventListener('click', e => {
+  if (!e.target.closest('.print-dd')) {
+    document.getElementById('print-dd-menu').classList.remove('open');
+  }
+});
+
+function updatePrintMeta(bedNum) {
+  const el = document.getElementById(`ph-meta-${bedNum}`);
+  if (!el) return;
+  const medico = document.getElementById('g-medico').value;
+  const data   = document.getElementById('g-data').value;
+  const diurno = document.getElementById('g-diurno').checked;
+  const noturno = document.getElementById('g-noturno').checked;
+  const plantao = [diurno && 'Diurno', noturno && 'Noturno'].filter(Boolean).join('/') || '—';
+  const dataFmt = data ? new Date(data + 'T12:00:00').toLocaleDateString('pt-BR') : '—';
+  el.innerHTML = `Médico(s): ${medico || '—'}<br>Data: ${dataFmt} | Plantão: ${plantao}`;
+}
+
+function buildPrintBedHTML(bedNum) {
+  const data = getBedData(bedNum);
+  // Create a temporary section clone for print
+  const section = document.getElementById(`bed-section-${bedNum}`);
+  return section ? section.innerHTML : '';
+}
+
+function printBed(scope) {
+  document.getElementById('print-dd-menu').classList.remove('open');
+
+  if (scope === 'current') {
+    updatePrintMeta(currentBed);
+    window.print();
+    return;
+  }
+
+  let beds = [];
+  if (scope === 'posto1') beds = POSTOS.posto1.beds;
+  else if (scope === 'posto2') beds = POSTOS.posto2.beds;
+  else if (scope === 'posto3') beds = POSTOS.posto3.beds;
+
+  const area = document.getElementById('multi-print-area');
+  area.innerHTML = '';
+
+  beds.forEach(b => {
+    updatePrintMeta(b);
+    const div = document.createElement('div');
+    div.className = 'print-bed';
+    div.innerHTML = buildPrintBedHTML(b);
+    // Remove interactive elements
+    div.querySelectorAll('.prec-chips, .chip-row, .dva-btn').forEach(el => el.remove());
+    area.appendChild(div);
+  });
+
+  document.body.classList.add('multi-print');
+  window.print();
+}
+
+window.addEventListener('afterprint', () => {
+  document.body.classList.remove('multi-print');
+  const area = document.getElementById('multi-print-area');
+  area.innerHTML = '';
+});
+
+// ============================================================
+// INIT
+// ============================================================
+function init() {
+  buildNav();
+  buildBedSections();
+  loadAll();
+  ALL_BEDS.forEach(b => syncChips(b));
+  attachInputListeners();
+  initAtbBadges();
+
+  // Default date
+  const dataEl = document.getElementById('g-data');
+  if (!dataEl.value) {
+    dataEl.value = new Date().toISOString().split('T')[0];
+  }
+
+  switchBed(ALL_BEDS[0]);
+}
+
+document.addEventListener('DOMContentLoaded', init);
+</script>
+</body>
+</html>

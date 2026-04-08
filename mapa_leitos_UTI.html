@@ -1,0 +1,929 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Mapa de Leitos UTI — Hospital Santa Helena</title>
+<style>
+@import url(https://themes.googleusercontent.com/fonts/css?kit=fpjTOVmNbO4Lz34iLyptLUXza5VhXqVC6o75Eld_V98);ol{margin:0;padding:0}table td,table th{padding:0}.c42{border-right-style:solid;padding:2.4pt 4.2pt 2.4pt 4.2pt;border-bottom-color:#1a5276;border-top-width:1pt;border-right-width:1pt;border-left-color:#d5e3ee;vertical-align:middle;border-right-color:#d5e3ee;border-left-width:1pt;border-top-style:solid;background-color:#d6e8f5;border-left-style:solid;border-bottom-width:1pt;width:87.8pt;border-top-color:#d5e3ee;border-bottom-style:solid}.c109{border-right-style:solid;padding:2.3pt 5pt 2.3pt 5pt;border-bottom-color:#d5e3ee;border-top-width:1pt;border-right-width:0pt;border-left-color:#000000;vertical-align:top;border-right-color:#000000;border-left-width:0pt;border-top-style:solid;background-color:#1a6b8a;border-left-style:solid;border-bottom-width:1pt;width:175.5pt;border-top-color:#1a6b8a;border-bottom-style:solid}.c30{border-right-style:solid;padding:2.4pt 4.2pt 2.4pt 4.2pt;border-bottom-color:#d5e3ee;border-top-width:1pt;border-right-width:1pt;border-left-color:#d5e3ee;vertical-align:middle;border-right-color:#d5e3ee;border-left-width:1pt;border-top-style:solid;background-color:#edf5fc;border-left-style:solid;border-bottom-width:1pt;width:285.8pt;border-top-color:#d5e3ee;border-bottom-style:solid}.c24{border-right-style:solid;padding:2.4pt 4.2pt 2.4pt 4.2pt;border-bottom-color:#d5e3ee;border-top-width:1pt;border-right-width:1pt;border-left-color:#d5e3ee;vertical-align:middle;border-right-color:#d5e3ee;border-left-width:1pt;border-top-style:solid;background-color:#edf5fc;border-left-style:solid;border-bottom-width:1pt;width:95.2pt;border-top-color:#d5e3ee;border-bottom-style:solid}.c91{border-right-style:solid;padding:2.3pt 5pt 2.3pt 5pt;border-bottom-color:#d5e3ee;border-top-width:1pt;border-right-width:0pt;border-left-color:#000000;vertical-align:top;border-right-color:#000000;border-left-width:0pt;border-top-style:solid;background-color:#7d5a00;border-left-style:solid;border-bottom-width:1pt;width:175.5pt;border-top-color:#7d5a00;border-bottom-style:solid}.c9{border-right-style:solid;padding:2.4pt 4.2pt 2.4pt 4.2pt;border-bottom-color:#d5e3ee;border-top-width:1pt;border-right-width:1pt;border-left-color:#d5e3ee;vertical-align:middle;border-right-color:#d5e3ee;border-left-width:1pt;border-top-style:solid;background-color:#ffffff;border-left-style:solid;border-bottom-width:1pt;width:80.2pt;border-top-color:#d5e3ee;border-bottom-style:solid}.c40{border-right-style:solid;padding:2.4pt 4.2pt 2.4pt 4.2pt;border-bottom-color:#d5e3ee;border-top-width:1pt;border-right-width:1pt;border-left-color:#d5e3ee;vertical-align:middle;border-right-color:#d5e3ee;border-left-width:1pt;border-top-style:solid;background-color:#fdf5dc;border-left-style:solid;border-bottom-width:1pt;width:129pt;border-top-color:#d5e3ee;border-bottom-style:solid}.c29{border-right-style:solid;padding:2.4pt 4.2pt 2.4pt 4.2pt;border-bottom-color:#d5e3ee;border-top-width:1pt;border-right-width:1pt;border-left-color:#d5e3ee;vertical-align:middle;border-right-color:#d5e3ee;border-left-width:1pt;border-top-style:solid;background-color:#ffffff;border-left-style:solid;border-bottom-width:1pt;width:95.2pt;border-top-color:#d5e3ee;border-bottom-style:solid}.c43{border-right-style:solid;padding:2.4pt 4.2pt 2.4pt 4.2pt;border-bottom-color:#d5e3ee;border-top-width:1pt;border-right-width:1pt;border-left-color:#d5e3ee;vertical-align:middle;border-right-color:#d5e3ee;border-left-width:1pt;border-top-style:solid;background-color:#1b3a52;border-left-style:solid;border-bottom-width:1pt;width:95.2pt;border-top-color:#d5e3ee;border-bottom-style:solid}.c80{border-right-style:solid;padding:2.3pt 5pt 2.3pt 5pt;border-bottom-color:#d5e3ee;border-top-width:1pt;border-right-width:0pt;border-left-color:#000000;vertical-align:top;border-right-color:#000000;border-left-width:0pt;border-top-style:solid;background-color:#1a5276;border-left-style:solid;border-bottom-width:1pt;width:102.8pt;border-top-color:#1a5276;border-bottom-style:solid}.c18{border-right-style:solid;padding:2.4pt 4.2pt 2.4pt 4.2pt;border-bottom-color:#d5e3ee;border-top-width:1pt;border-right-width:1pt;border-left-color:#d5e3ee;vertical-align:middle;border-right-color:#d5e3ee;border-left-width:1pt;border-top-style:solid;background-color:#edf5fc;border-left-style:solid;border-bottom-width:1pt;width:102.8pt;border-top-color:#d5e3ee;border-bottom-style:solid}.c45{border-right-style:solid;padding:2.3pt 5pt 2.3pt 5pt;border-bottom-color:#d5e3ee;border-top-width:1pt;border-right-width:0pt;border-left-color:#000000;vertical-align:top;border-right-color:#000000;border-left-width:0pt;border-top-style:solid;background-color:#1a6b8a;border-left-style:solid;border-bottom-width:1pt;width:129pt;border-top-color:#1a6b8a;border-bottom-style:solid}.c6{border-right-style:solid;padding:2.4pt 4.2pt 2.4pt 4.2pt;border-bottom-color:#d5e3ee;border-top-width:1pt;border-right-width:1pt;border-left-color:#d5e3ee;vertical-align:middle;border-right-color:#d5e3ee;border-left-width:1pt;border-top-style:solid;background-color:#ffffff;border-left-style:solid;border-bottom-width:1pt;width:129pt;border-top-color:#d5e3ee;border-bottom-style:solid}.c15{border-right-style:solid;padding:2.4pt 4.2pt 2.4pt 4.2pt;border-bottom-color:#d5e3ee;border-top-width:1pt;border-right-width:1pt;border-left-color:#d5e3ee;vertical-align:middle;border-right-color:#d5e3ee;border-left-width:1pt;border-top-style:solid;background-color:#d6e8f5;border-left-style:solid;border-bottom-width:1pt;width:80.2pt;border-top-color:#d5e3ee;border-bottom-style:solid}.c76{border-right-style:solid;padding:1.9pt 4.2pt 1.9pt 4.2pt;border-bottom-color:#d5e3ee;border-top-width:1pt;border-right-width:1pt;border-left-color:#d5e3ee;vertical-align:top;border-right-color:#d5e3ee;border-left-width:1pt;border-top-style:solid;background-color:#e9f5ee;border-left-style:solid;border-bottom-width:1pt;width:129pt;border-top-color:#d5e3ee;border-bottom-style:solid}.c17{border-right-style:solid;padding:2.3pt 5pt 2.3pt 5pt;border-bottom-color:#d5e3ee;border-top-width:1pt;border-right-width:0pt;border-left-color:#000000;vertical-align:top;border-right-color:#000000;border-left-width:0pt;border-top-style:solid;background-color:#1a5276;border-left-style:solid;border-bottom-width:1pt;width:285.8pt;border-top-color:#1a5276;border-bottom-style:solid}.c5{border-right-style:solid;padding:2.4pt 4.2pt 2.4pt 4.2pt;border-bottom-color:#d5e3ee;border-top-width:1pt;border-right-width:1pt;border-left-color:#d5e3ee;vertical-align:middle;border-right-color:#d5e3ee;border-left-width:1pt;border-top-style:solid;background-color:#edf5fc;border-left-style:solid;border-bottom-width:1pt;width:129pt;border-top-color:#d5e3ee;border-bottom-style:solid}.c64{border-right-style:solid;padding:2.3pt 5pt 2.3pt 5pt;border-bottom-color:#d5e3ee;border-top-width:1pt;border-right-width:0pt;border-left-color:#000000;vertical-align:top;border-right-color:#000000;border-left-width:0pt;border-top-style:solid;background-color:#7d5a00;border-left-style:solid;border-bottom-width:1pt;width:129pt;border-top-color:#7d5a00;border-bottom-style:solid}.c54{border-right-style:solid;padding:2.4pt 4.2pt 2.4pt 4.2pt;border-bottom-color:#d5e3ee;border-top-width:1pt;border-right-width:1pt;border-left-color:#d5e3ee;vertical-align:middle;border-right-color:#d5e3ee;border-left-width:1pt;border-top-style:solid;background-color:#fffbef;border-left-style:solid;border-bottom-width:1pt;width:129pt;border-top-color:#d5e3ee;border-bottom-style:solid}.c89{border-right-style:solid;padding:1.9pt 4.2pt 1.9pt 4.2pt;border-bottom-color:#d5e3ee;border-top-width:1pt;border-right-width:1pt;border-left-color:#d5e3ee;vertical-align:top;border-right-color:#d5e3ee;border-left-width:1pt;border-top-style:solid;background-color:#e9f5ee;border-left-style:solid;border-bottom-width:1pt;width:175.5pt;border-top-color:#d5e3ee;border-bottom-style:solid}.c3{border-right-style:solid;padding:2.4pt 4.2pt 2.4pt 4.2pt;border-bottom-color:#d5e3ee;border-top-width:1pt;border-right-width:1pt;border-left-color:#d5e3ee;vertical-align:middle;border-right-color:#d5e3ee;border-left-width:1pt;border-top-style:solid;background-color:#f4ecf7;border-left-style:solid;border-bottom-width:1pt;width:129pt;border-top-color:#d5e3ee;border-bottom-style:solid}.c81{border-right-style:solid;padding:1.9pt 4.5pt 1.9pt 4.5pt;border-bottom-color:#d5e3ee;border-top-width:1pt;border-right-width:1pt;border-left-color:#d5e3ee;vertical-align:top;border-right-color:#d5e3ee;border-left-width:1pt;border-top-style:solid;background-color:#1b3a52;border-left-style:solid;border-bottom-width:1pt;width:95.2pt;border-top-color:#d5e3ee;border-bottom-style:solid}.c71{border-right-style:solid;padding:2.4pt 4.2pt 2.4pt 4.2pt;border-bottom-color:#d5e3ee;border-top-width:1pt;border-right-width:1pt;border-left-color:#d5e3ee;vertical-align:middle;border-right-color:#d5e3ee;border-left-width:1pt;border-top-style:solid;background-color:#d6e8f5;border-left-style:solid;border-bottom-width:1pt;width:102.8pt;border-top-color:#d5e3ee;border-bottom-style:solid}.c74{border-right-style:solid;padding:2.4pt 4.2pt 2.4pt 4.2pt;border-bottom-color:#d5e3ee;border-top-width:1pt;border-right-width:1pt;border-left-color:#d5e3ee;vertical-align:middle;border-right-color:#d5e3ee;border-left-width:1pt;border-top-style:solid;background-color:#c0392b;border-left-style:solid;border-bottom-width:1pt;width:50.2pt;border-top-color:#d5e3ee;border-bottom-style:solid}.c34{border-right-style:solid;padding:2.3pt 5pt 2.3pt 5pt;border-bottom-color:#d5e3ee;border-top-width:1pt;border-right-width:0pt;border-left-color:#000000;vertical-align:top;border-right-color:#000000;border-left-width:0pt;border-top-style:solid;background-color:#1b3a52;border-left-style:solid;border-bottom-width:1pt;width:129pt;border-top-color:#1b3a52;border-bottom-style:solid}.c19{border-right-style:solid;padding:2.4pt 4.2pt 2.4pt 4.2pt;border-bottom-color:#d5e3ee;border-top-width:1pt;border-right-width:1pt;border-left-color:#d5e3ee;vertical-align:middle;border-right-color:#d5e3ee;border-left-width:1pt;border-top-style:solid;background-color:#d6e8f5;border-left-style:solid;border-bottom-width:1pt;width:50.2pt;border-top-color:#d5e3ee;border-bottom-style:solid}.c58{border-right-style:solid;padding:2.3pt 5pt 2.3pt 5pt;border-bottom-color:#d5e3ee;border-top-width:1pt;border-right-width:0pt;border-left-color:#000000;vertical-align:top;border-right-color:#000000;border-left-width:0pt;border-top-style:solid;background-color:#1b3a52;border-left-style:solid;border-bottom-width:1pt;width:179.2pt;border-top-color:#1b3a52;border-bottom-style:solid}.c4{border-right-style:solid;padding:2.3pt 5pt 2.3pt 5pt;border-bottom-color:#d5e3ee;border-top-width:1pt;border-right-width:0pt;border-left-color:#000000;vertical-align:top;border-right-color:#000000;border-left-width:0pt;border-top-style:solid;background-color:#1a5276;border-left-style:solid;border-bottom-width:1pt;width:80.2pt;border-top-color:#1a5276;border-bottom-style:solid}.c32{border-right-style:solid;padding:1.9pt 4.5pt 1.9pt 4.5pt;border-bottom-color:#d5e3ee;border-top-width:1pt;border-right-width:1pt;border-left-color:#d5e3ee;vertical-align:top;border-right-color:#d5e3ee;border-left-width:1pt;border-top-style:solid;background-color:#1b3a52;border-left-style:solid;border-bottom-width:1pt;width:129pt;border-top-color:#d5e3ee;border-bottom-style:solid}.c21{border-right-style:solid;padding:2.4pt 4.2pt 2.4pt 4.2pt;border-bottom-color:#7d5a00;border-top-width:1pt;border-right-width:1pt;border-left-color:#d5e3ee;vertical-align:middle;border-right-color:#d5e3ee;border-left-width:1pt;border-top-style:solid;background-color:#ffffff;border-left-style:solid;border-bottom-width:1pt;width:129pt;border-top-color:#d5e3ee;border-bottom-style:solid}.c20{border-right-style:solid;padding:2.4pt 4.2pt 2.4pt 4.2pt;border-bottom-color:#d5e3ee;border-top-width:1pt;border-right-width:1pt;border-left-color:#d5e3ee;vertical-align:middle;border-right-color:#d5e3ee;border-left-width:1pt;border-top-style:solid;background-color:#ffffff;border-left-style:solid;border-bottom-width:1pt;width:102.8pt;border-top-color:#d5e3ee;border-bottom-style:solid}.c60{border-right-style:solid;padding:2.4pt 4.2pt 2.4pt 4.2pt;border-bottom-color:#d5e3ee;border-top-width:1pt;border-right-width:1pt;border-left-color:#d5e3ee;vertical-align:middle;border-right-color:#d5e3ee;border-left-width:1pt;border-top-style:solid;background-color:#d6e8f5;border-left-style:solid;border-bottom-width:1pt;width:87.8pt;border-top-color:#d5e3ee;border-bottom-style:solid}.c11{border-right-style:solid;padding:2.4pt 4.2pt 2.4pt 4.2pt;border-bottom-color:#d5e3ee;border-top-width:1pt;border-right-width:1pt;border-left-color:#d5e3ee;vertical-align:middle;border-right-color:#d5e3ee;border-left-width:1pt;border-top-style:solid;background-color:#ffffff;border-left-style:solid;border-bottom-width:1pt;width:46.5pt;border-top-color:#d5e3ee;border-bottom-style:solid}.c51{border-right-style:solid;padding:2.3pt 5pt 2.3pt 5pt;border-bottom-color:#d5e3ee;border-top-width:1pt;border-right-width:0pt;border-left-color:#d5e3ee;vertical-align:top;border-right-color:#000000;border-left-width:1pt;border-top-style:solid;background-color:#1a6b8a;border-left-style:solid;border-bottom-width:1pt;width:175.5pt;border-top-color:#1a6b8a;border-bottom-style:solid}.c41{border-right-style:solid;padding:2.4pt 4.2pt 2.4pt 4.2pt;border-bottom-color:#d5e3ee;border-top-width:1pt;border-right-width:1pt;border-left-color:#d5e3ee;vertical-align:middle;border-right-color:#d5e3ee;border-left-width:1pt;border-top-style:solid;background-color:#fdf5dc;border-left-style:solid;border-bottom-width:1pt;width:46.5pt;border-top-color:#d5e3ee;border-bottom-style:solid}.c28{border-right-style:solid;padding:2.4pt 4.2pt 2.4pt 4.2pt;border-bottom-color:#d5e3ee;border-top-width:1pt;border-right-width:1pt;border-left-color:#d5e3ee;vertical-align:middle;border-right-color:#d5e3ee;border-left-width:1pt;border-top-style:solid;background-color:#ffffff;border-left-style:solid;border-bottom-width:1pt;width:87.8pt;border-top-color:#d5e3ee;border-bottom-style:solid}.c39{border-right-style:solid;padding:2.3pt 5pt 2.3pt 5pt;border-bottom-color:#d5e3ee;border-top-width:1pt;border-right-width:0pt;border-left-color:#000000;vertical-align:top;border-right-color:#000000;border-left-width:0pt;border-top-style:solid;background-color:#1a5276;border-left-style:solid;border-bottom-width:1pt;width:95.2pt;border-top-color:#1a5276;border-bottom-style:solid}.c106{border-right-style:solid;padding:1.9pt 4.5pt 1.9pt 4.5pt;border-bottom-color:#d5e3ee;border-top-width:1pt;border-right-width:1pt;border-left-color:#d5e3ee;vertical-align:top;border-right-color:#d5e3ee;border-left-width:1pt;border-top-style:solid;border-left-style:solid;border-bottom-width:1pt;width:285.8pt;border-top-color:#d5e3ee;border-bottom-style:solid}.c53{border-right-style:solid;padding:2.4pt 4.2pt 2.4pt 4.2pt;border-bottom-color:#1a5276;border-top-width:1pt;border-right-width:1pt;border-left-color:#d5e3ee;vertical-align:middle;border-right-color:#d5e3ee;border-left-width:1pt;border-top-style:solid;border-left-style:solid;border-bottom-width:1pt;width:95.2pt;border-top-color:#d5e3ee;border-bottom-style:solid}.c94{border-right-style:solid;padding:1.9pt 4.5pt 1.9pt 4.5pt;border-bottom-color:#d5e3ee;border-top-width:1pt;border-right-width:1pt;border-left-color:#d5e3ee;vertical-align:top;border-right-color:#d5e3ee;border-left-width:1pt;border-top-style:solid;border-left-style:solid;border-bottom-width:1pt;width:179.2pt;border-top-color:#d5e3ee;border-bottom-style:solid}.c111{border-right-style:solid;padding:2.4pt 4.2pt 2.4pt 4.2pt;border-bottom-color:#1a5276;border-top-width:1pt;border-right-width:1pt;border-left-color:#d5e3ee;vertical-align:middle;border-right-color:#d5e3ee;border-left-width:1pt;border-top-style:solid;border-left-style:solid;border-bottom-width:1pt;width:87.8pt;border-top-color:#d5e3ee;border-bottom-style:solid}.c69{border-right-style:solid;padding:2.4pt 4.2pt 2.4pt 4.2pt;border-bottom-color:#d5e3ee;border-top-width:1pt;border-right-width:1pt;border-left-color:#d5e3ee;vertical-align:middle;border-right-color:#d5e3ee;border-left-width:1pt;border-top-style:solid;border-left-style:solid;border-bottom-width:1pt;width:129pt;border-top-color:#d5e3ee;border-bottom-style:solid}.c115{border-right-style:solid;padding:2.4pt 4.2pt 2.4pt 4.2pt;border-bottom-color:#1a5276;border-top-width:1pt;border-right-width:1pt;border-left-color:#d5e3ee;vertical-align:middle;border-right-color:#d5e3ee;border-left-width:1pt;border-top-style:solid;border-left-style:solid;border-bottom-width:1pt;width:285.8pt;border-top-color:#d5e3ee;border-bottom-style:solid}.c90{border-right-style:solid;padding:2.4pt 4.2pt 2.4pt 4.2pt;border-bottom-color:#d5e3ee;border-top-width:1pt;border-right-width:1pt;border-left-color:#d5e3ee;vertical-align:middle;border-right-color:#d5e3ee;border-left-width:1pt;border-top-style:solid;border-left-style:solid;border-bottom-width:1pt;width:285.8pt;border-top-color:#d5e3ee;border-bottom-style:solid}.c96{border-right-style:solid;padding:1.9pt 4.5pt 1.9pt 4.5pt;border-bottom-color:#d5e3ee;border-top-width:1pt;border-right-width:1pt;border-left-color:#d5e3ee;vertical-align:top;border-right-color:#d5e3ee;border-left-width:1pt;border-top-style:solid;border-left-style:solid;border-bottom-width:1pt;width:102.8pt;border-top-color:#d5e3ee;border-bottom-style:solid}.c46{border-right-style:solid;padding:2.4pt 4.5pt 2.4pt 4.5pt;border-bottom-color:#d5e3ee;border-top-width:1pt;border-right-width:1pt;border-left-color:#d5e3ee;vertical-align:top;border-right-color:#d5e3ee;border-left-width:1pt;border-top-style:solid;border-left-style:solid;border-bottom-width:1pt;width:95.2pt;border-top-color:#d5e3ee;border-bottom-style:solid}.c103{border-right-style:solid;padding:1.9pt 4.5pt 1.9pt 4.5pt;border-bottom-color:#d5e3ee;border-top-width:1pt;border-right-width:1pt;border-left-color:#d5e3ee;vertical-align:top;border-right-color:#d5e3ee;border-left-width:1pt;border-top-style:solid;border-left-style:solid;border-bottom-width:1pt;width:175.5pt;border-top-color:#d5e3ee;border-bottom-style:solid}.c110{border-right-style:solid;padding:2.4pt 4.2pt 2.4pt 4.2pt;border-bottom-color:#d5e3ee;border-top-width:1pt;border-right-width:1pt;border-left-color:#d5e3ee;vertical-align:middle;border-right-color:#d5e3ee;border-left-width:1pt;border-top-style:solid;border-left-style:solid;border-bottom-width:1pt;width:102.8pt;border-top-color:#d5e3ee;border-bottom-style:solid}.c95{border-right-style:solid;padding:2.4pt 4.2pt 2.4pt 4.2pt;border-bottom-color:#1a6b8a;border-top-width:1pt;border-right-width:1pt;border-left-color:#d5e3ee;vertical-align:middle;border-right-color:#d5e3ee;border-left-width:1pt;border-top-style:solid;border-left-style:solid;border-bottom-width:1pt;width:129pt;border-top-color:#d5e3ee;border-bottom-style:solid}.c59{border-right-style:solid;padding:2.4pt 4.2pt 2.4pt 4.2pt;border-bottom-color:#d5e3ee;border-top-width:1pt;border-right-width:1pt;border-left-color:#d5e3ee;vertical-align:middle;border-right-color:#d5e3ee;border-left-width:1pt;border-top-style:solid;border-left-style:solid;border-bottom-width:1pt;width:46.5pt;border-top-color:#d5e3ee;border-bottom-style:solid}.c102{border-right-style:solid;padding:2.4pt 4.5pt 2.4pt 4.5pt;border-bottom-color:#d5e3ee;border-top-width:1pt;border-right-width:1pt;border-left-color:#d5e3ee;vertical-align:top;border-right-color:#d5e3ee;border-left-width:1pt;border-top-style:solid;border-left-style:solid;border-bottom-width:1pt;width:179.2pt;border-top-color:#d5e3ee;border-bottom-style:solid}.c55{border-right-style:solid;padding:2.4pt 4.5pt 2.4pt 4.5pt;border-bottom-color:#d5e3ee;border-top-width:1pt;border-right-width:1pt;border-left-color:#d5e3ee;vertical-align:top;border-right-color:#d5e3ee;border-left-width:1pt;border-top-style:solid;border-left-style:solid;border-bottom-width:1pt;width:80.2pt;border-top-color:#d5e3ee;border-bottom-style:solid}.c56{border-right-style:solid;padding:2.4pt 4.5pt 2.4pt 4.5pt;border-bottom-color:#d5e3ee;border-top-width:1pt;border-right-width:1pt;border-left-color:#d5e3ee;vertical-align:top;border-right-color:#d5e3ee;border-left-width:1pt;border-top-style:solid;border-left-style:solid;border-bottom-width:1pt;width:175.5pt;border-top-color:#d5e3ee;border-bottom-style:solid}.c97{border-right-style:solid;padding:2.4pt 4.2pt 2.4pt 4.2pt;border-bottom-color:#d5e3ee;border-top-width:1pt;border-right-width:1pt;border-left-color:#d5e3ee;vertical-align:middle;border-right-color:#d5e3ee;border-left-width:1pt;border-top-style:solid;border-left-style:solid;border-bottom-width:1pt;width:50.2pt;border-top-color:#d5e3ee;border-bottom-style:solid}.c78{border-right-style:solid;padding:2.4pt 4.2pt 2.4pt 4.2pt;border-bottom-color:#1b3a52;border-top-width:1pt;border-right-width:1pt;border-left-color:#d5e3ee;vertical-align:middle;border-right-color:#d5e3ee;border-left-width:1pt;border-top-style:solid;border-left-style:solid;border-bottom-width:1pt;width:50.2pt;border-top-color:#d5e3ee;border-bottom-style:solid}.c66{border-right-style:solid;padding:2.4pt 4.2pt 2.4pt 4.2pt;border-bottom-color:#d5e3ee;border-top-width:1pt;border-right-width:1pt;border-left-color:#d5e3ee;vertical-align:middle;border-right-color:#d5e3ee;border-left-width:1pt;border-top-style:solid;border-left-style:solid;border-bottom-width:1pt;width:80.2pt;border-top-color:#d5e3ee;border-bottom-style:solid}.c61{border-right-style:solid;padding:2.4pt 4.2pt 2.4pt 4.2pt;border-bottom-color:#1b3a52;border-top-width:1pt;border-right-width:1pt;border-left-color:#d5e3ee;vertical-align:middle;border-right-color:#d5e3ee;border-left-width:1pt;border-top-style:solid;border-left-style:solid;border-bottom-width:1pt;width:129pt;border-top-color:#d5e3ee;border-bottom-style:solid}.c49{border-right-style:solid;padding:2.4pt 4.5pt 2.4pt 4.5pt;border-bottom-color:#d5e3ee;border-top-width:1pt;border-right-width:1pt;border-left-color:#d5e3ee;vertical-align:top;border-right-color:#d5e3ee;border-left-width:1pt;border-top-style:solid;border-left-style:solid;border-bottom-width:1pt;width:285.8pt;border-top-color:#d5e3ee;border-bottom-style:solid}.c82{border-right-style:solid;padding:2.4pt 4.2pt 2.4pt 4.2pt;border-bottom-color:#1a5276;border-top-width:1pt;border-right-width:1pt;border-left-color:#d5e3ee;vertical-align:middle;border-right-color:#d5e3ee;border-left-width:1pt;border-top-style:solid;border-left-style:solid;border-bottom-width:1pt;width:102.8pt;border-top-color:#d5e3ee;border-bottom-style:solid}.c114{border-right-style:solid;padding:1.9pt 4.5pt 1.9pt 4.5pt;border-bottom-color:#d5e3ee;border-top-width:1pt;border-right-width:1pt;border-left-color:#d5e3ee;vertical-align:top;border-right-color:#d5e3ee;border-left-width:1pt;border-top-style:solid;border-left-style:solid;border-bottom-width:1pt;width:80.2pt;border-top-color:#d5e3ee;border-bottom-style:solid}.c86{border-right-style:solid;padding:2.4pt 4.2pt 2.4pt 4.2pt;border-bottom-color:#d5e3ee;border-top-width:1pt;border-right-width:1pt;border-left-color:#d5e3ee;vertical-align:middle;border-right-color:#d5e3ee;border-left-width:1pt;border-top-style:solid;border-left-style:solid;border-bottom-width:1pt;width:87.8pt;border-top-color:#d5e3ee;border-bottom-style:solid}.c79{border-right-style:solid;padding:2.4pt 4.2pt 2.4pt 4.2pt;border-bottom-color:#d5e3ee;border-top-width:1pt;border-right-width:1pt;border-left-color:#d5e3ee;vertical-align:middle;border-right-color:#d5e3ee;border-left-width:1pt;border-top-style:solid;border-left-style:solid;border-bottom-width:1pt;width:95.2pt;border-top-color:#d5e3ee;border-bottom-style:solid}.c68{border-right-style:solid;padding:2.4pt 4.5pt 2.4pt 4.5pt;border-bottom-color:#d5e3ee;border-top-width:1pt;border-right-width:1pt;border-left-color:#d5e3ee;vertical-align:top;border-right-color:#d5e3ee;border-left-width:1pt;border-top-style:solid;border-left-style:solid;border-bottom-width:1pt;width:102.8pt;border-top-color:#d5e3ee;border-bottom-style:solid}.c73{border-right-style:solid;padding:2.4pt 4.2pt 2.4pt 4.2pt;border-bottom-color:#1a5276;border-top-width:1pt;border-right-width:1pt;border-left-color:#d5e3ee;vertical-align:middle;border-right-color:#d5e3ee;border-left-width:1pt;border-top-style:solid;border-left-style:solid;border-bottom-width:1pt;width:80.2pt;border-top-color:#d5e3ee;border-bottom-style:solid}.c62{border-right-style:solid;padding:2.4pt 4.5pt 2.4pt 4.5pt;border-bottom-color:#d5e3ee;border-top-width:1pt;border-right-width:1pt;border-left-color:#d5e3ee;vertical-align:top;border-right-color:#d5e3ee;border-left-width:1pt;border-top-style:solid;border-left-style:solid;border-bottom-width:1pt;width:129pt;border-top-color:#d5e3ee;border-bottom-style:solid}.c113{border-right-style:solid;padding:2.4pt 4.2pt 2.4pt 4.2pt;border-bottom-color:#7d5a00;border-top-width:1pt;border-right-width:1pt;border-left-color:#d5e3ee;vertical-align:middle;border-right-color:#d5e3ee;border-left-width:1pt;border-top-style:solid;border-left-style:solid;border-bottom-width:1pt;width:46.5pt;border-top-color:#d5e3ee;border-bottom-style:solid}.c84{border-right-style:solid;padding:2.4pt 4.2pt 2.4pt 4.2pt;border-bottom-color:#1a6b8a;border-top-width:1pt;border-right-width:1pt;border-left-color:#d5e3ee;vertical-align:middle;border-right-color:#d5e3ee;border-left-width:1pt;border-top-style:solid;border-left-style:solid;border-bottom-width:1pt;width:46.5pt;border-top-color:#d5e3ee;border-bottom-style:solid}.c92{border-right-style:solid;padding:2.3pt 5pt 2.3pt 5pt;border-bottom-color:#d5e3ee;border-top-width:1pt;border-right-width:1pt;border-left-color:#000000;vertical-align:top;border-right-color:#d5e3ee;border-left-width:0pt;border-top-style:solid;border-left-style:solid;border-bottom-width:1pt;width:129pt;border-top-color:#1b3a52;border-bottom-style:solid}.c36{padding-top:0pt;border-top-width:0.5pt;border-top-color:#d5e3ee;padding-bottom:0pt;line-height:1.0;orphans:2;border-top-style:solid;widows:2;text-align:center}.c1{padding-top:0pt;padding-bottom:0pt;line-height:1.0;orphans:2;widows:2;text-align:left;height:6.5pt}.c12{color:#222222;font-weight:400;text-decoration:none;vertical-align:baseline;font-size:6pt;font-family:"Calibri";font-style:normal}.c26{color:#ffffff;font-weight:700;text-decoration:none;vertical-align:baseline;font-size:7pt;font-family:"Calibri";font-style:normal}.c0{color:#000000;font-weight:400;text-decoration:none;vertical-align:baseline;font-size:6.5pt;font-family:"Calibri";font-style:normal}.c8{color:#ffffff;font-weight:700;text-decoration:none;vertical-align:baseline;font-size:6pt;font-family:"Calibri";font-style:normal}.c65{padding-top:0pt;padding-bottom:0pt;line-height:1.0;orphans:2;widows:2;text-align:center}.c2{padding-top:0pt;padding-bottom:0pt;line-height:1.0;orphans:2;widows:2;text-align:left}.c13{padding-top:0pt;padding-bottom:0pt;line-height:1.15;text-align:left;height:6.5pt}.c70{color:#000000;font-weight:400;font-size:11pt;font-family:"Arial"}.c57{border-spacing:0;border-collapse:collapse;margin-right:auto}.c27{font-size:7.5pt;font-family:"Calibri";color:#4a6a82;font-weight:400}.c88{font-size:6pt;font-family:"Calibri";color:#8899aa;font-weight:400}.c63{font-size:6.5pt;font-family:"Calibri";color:#1e6e42;font-weight:700}.c14{font-size:6.5pt;font-family:"Calibri";color:#222222;font-weight:400}.c10{font-size:6.5pt;font-family:"Calibri";color:#ffffff;font-weight:700}.c85{font-size:6pt;font-family:"Calibri";color:#ffffff;font-weight:700}.c44{font-size:6pt;font-family:"Calibri";color:#1b3a52;font-weight:700}.c23{font-size:6pt;font-family:"Calibri";color:#222222;font-weight:400}.c7{font-size:5.5pt;font-family:"Calibri";color:#1b3a52;font-weight:700}.c16{font-size:5.5pt;font-family:"Calibri";color:#222222;font-weight:400}.c83{font-size:7pt;font-family:"Calibri";color:#ffffff;font-weight:700}.c38{color:#ffffff;font-weight:700;font-size:7.5pt;font-family:"Calibri"}.c101{color:#ffffff;font-size:6pt;font-weight:700}.c100{border-bottom-color:#1b3a52;border-bottom-width:1pt;border-bottom-style:solid}.c104{color:#ffffff;font-size:7.5pt;font-weight:700}.c33{text-decoration:none;vertical-align:baseline;font-style:normal}.c50{font-size:8.5pt;font-family:"Calibri"}.c48{color:#1b3a52;font-weight:700}.c93{color:#4a6a82;font-size:7.5pt}.c25{color:#222222;font-size:6pt}.c99{max-width:720pt;padding:36pt 36pt 36pt 36pt}.c22{color:#222222;font-size:5.5pt}.c112{font-size:6.5pt;font-family:"Calibri"}.c105{background-color:#fdecea}.c75{height:15.1pt}.c37{background-color:#ffffff}.c67{font-size:5.5pt}.c77{background-color:#d6e8f5}.c47{height:11.3pt}.c52{background-color:#edf5fc}.c87{background-color:#1b3a52}.c31{color:#222222}.c98{background-color:#fffbef}.c35{height:0pt}.c72{height:14.2pt}.c108{height:13.2pt}.c107{background-color:#6c3483}.title{padding-top:0pt;color:#000000;font-size:28pt;padding-bottom:0pt;font-family:"Calibri";line-height:1.0;orphans:2;widows:2;text-align:left}.subtitle{padding-top:18pt;color:#666666;font-size:24pt;padding-bottom:4pt;font-family:"Georgia";line-height:1.0;page-break-after:avoid;font-style:italic;orphans:2;widows:2;text-align:left}li{color:#000000;font-size:6.5pt;font-family:"Calibri"}p{margin:0;color:#000000;font-size:6.5pt;font-family:"Calibri"}h1{padding-top:0pt;color:#2e74b5;font-size:16pt;padding-bottom:0pt;font-family:"Calibri";line-height:1.0;orphans:2;widows:2;text-align:left}h2{padding-top:0pt;color:#2e74b5;font-size:13pt;padding-bottom:0pt;font-family:"Calibri";line-height:1.0;orphans:2;widows:2;text-align:left}h3{padding-top:0pt;color:#1f4d78;font-size:12pt;padding-bottom:0pt;font-family:"Calibri";line-height:1.0;orphans:2;widows:2;text-align:left}h4{padding-top:0pt;color:#2e74b5;font-size:6.5pt;padding-bottom:0pt;font-family:"Calibri";line-height:1.0;font-style:italic;orphans:2;widows:2;text-align:left}h5{padding-top:0pt;color:#2e74b5;font-size:6.5pt;padding-bottom:0pt;font-family:"Calibri";line-height:1.0;orphans:2;widows:2;text-align:left}h6{padding-top:0pt;color:#1f4d78;font-size:6.5pt;padding-bottom:0pt;font-family:"Calibri";line-height:1.0;orphans:2;widows:2;text-align:left}
+
+/* ===== WEBAPP STYLES ===== */
+*, *::before, *::after { box-sizing: border-box; }
+
+body { margin: 0; padding: 0; background: #f0f4f8; }
+
+#app-nav {
+  position: sticky; top: 0; z-index: 200;
+  background: #1b3a52;
+  padding: 6px 10px;
+  display: flex; flex-wrap: wrap; gap: 4px; align-items: center;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.4);
+}
+
+.nav-title {
+  color: white; font-size: 11px; font-weight: bold;
+  font-family: Calibri, sans-serif; white-space: nowrap; margin-right: 6px;
+}
+.home-btn {
+  font-size: 7.5pt; font-weight: bold; color: #a8d8f0; text-decoration: none;
+  padding: 3px 8px; border: 1px solid #4a7a9b; border-radius: 3px;
+  background: #152e45; white-space: nowrap; margin-right: 6px;
+  transition: background 0.15s, color 0.15s;
+}
+.home-btn:hover { background: #729fcf; color: #fff; }
+
+.nav-group { display: flex; gap: 2px; align-items: center; }
+
+.nav-sep {
+  width: 1px; height: 22px; background: #4a6a82; margin: 0 4px;
+}
+
+.bed-btn {
+  background: #2e4d6e; color: white; border: none;
+  padding: 3px 7px; cursor: pointer; font-size: 10px;
+  border-radius: 3px; font-family: Calibri, sans-serif;
+  transition: background 0.15s;
+}
+.bed-btn:hover { background: #3d6b96; }
+.bed-btn.active { background: #e74c3c; font-weight: bold; }
+.bed-btn.has-data { background: #1a6b8a; }
+.bed-btn.active.has-data { background: #e74c3c; }
+
+.nav-global {
+  display: flex; align-items: center; gap: 8px;
+  margin-left: auto; flex-wrap: wrap;
+}
+
+.nav-label {
+  color: #aac4d8; font-size: 10px; font-family: Calibri, sans-serif;
+}
+
+.nav-input {
+  background: #2e4d6e; border: 1px solid #4a6a82; color: white;
+  padding: 2px 6px; border-radius: 3px; font-size: 10px;
+  font-family: Calibri, sans-serif; outline: none;
+}
+.nav-input:focus { border-color: #1a6b8a; }
+
+.nav-checkbox-label {
+  color: white; font-size: 10px; font-family: Calibri, sans-serif;
+  display: flex; align-items: center; gap: 3px; cursor: pointer;
+}
+
+#btn-print {
+  background: #1a6b8a; color: white; border: none;
+  padding: 4px 10px; border-radius: 3px; cursor: pointer;
+  font-size: 10px; font-family: Calibri, sans-serif;
+}
+#btn-print:hover { background: #1d7da3; }
+
+#save-indicator {
+  padding: 3px 10px; border-radius: 3px;
+  font-size: 10px; font-family: Calibri, sans-serif;
+  color: white; background: #27ae60; white-space: nowrap;
+  transition: background 0.3s;
+}
+
+#app-form-wrapper {
+  padding: 16px; display: flex; justify-content: center;
+}
+
+#app-form {
+  background: white;
+  box-shadow: 0 2px 12px rgba(0,0,0,0.15);
+  border-radius: 4px;
+  overflow: visible;
+}
+
+/* Form field styles */
+.fi {
+  border: none; background: transparent;
+  font-family: Calibri, sans-serif; font-size: 6pt; color: #222222;
+  width: 100%; padding: 0; margin: 0; outline: none;
+  min-width: 10px;
+}
+.fi:hover { background: rgba(26,107,138,0.07); }
+.fi:focus { background: rgba(255,255,150,0.5); outline: 1px solid #1a6b8a; border-radius: 1px; }
+
+.fi-inline {
+  border: none; background: transparent;
+  font-family: Calibri, sans-serif; font-size: 6pt; color: #222222;
+  padding: 0; margin: 0; outline: none;
+  border-bottom: 1px solid rgba(0,0,0,0.2);
+}
+.fi-inline:focus { background: rgba(255,255,150,0.5); outline: none; }
+
+.fi-white {
+  color: white; border-bottom: 1px solid rgba(255,255,255,0.4);
+}
+.fi-white:focus { background: rgba(255,255,255,0.15); }
+
+.fe {
+  outline: none; min-height: 14px; width: 100%;
+  font-family: Calibri, sans-serif; font-size: 6pt; color: #222222;
+  word-break: break-word;
+}
+.fe:hover { background: rgba(26,107,138,0.05); }
+.fe:focus { background: rgba(255,255,150,0.4); outline: 1px solid #1a6b8a; border-radius: 1px; }
+.fe:empty::before { content: attr(data-placeholder); color: #aaa; pointer-events: none; }
+
+.fe-tall { min-height: 36px; }
+.fe-obs { min-height: 50px; }
+.fe-pend { min-height: 40px; }
+
+input[type="checkbox"].cb {
+  margin: 0 1px; cursor: pointer; vertical-align: middle;
+  accent-color: #1a6b8a; width: 9px; height: 9px;
+}
+
+/* paciente header input */
+.fi-paciente {
+  color: white; font-size: 7.5pt; font-weight: 700;
+  background: transparent; border: none; border-bottom: 1px solid rgba(255,255,255,0.35);
+  font-family: Calibri, sans-serif; outline: none; width: 55%;
+}
+.fi-paciente:focus { background: rgba(255,255,255,0.12); outline: none; }
+
+/* Print dropdown */
+.print-dropdown {
+  position: absolute; right: 0; top: calc(100% + 4px);
+  background: #152e44; border: 1px solid #4a6a82;
+  border-radius: 4px; z-index: 1000;
+  min-width: 210px; box-shadow: 0 4px 18px rgba(0,0,0,0.55);
+  overflow: hidden;
+}
+.print-dropdown a {
+  display: block; padding: 7px 14px;
+  color: white; text-decoration: none;
+  font-size: 11px; font-family: Calibri, sans-serif;
+  white-space: nowrap; cursor: pointer;
+  transition: background 0.1s;
+}
+.print-dropdown a:hover { background: #2e4d6e; }
+.print-dropdown .pd-sep { border: none; border-top: 1px solid #2e4d6e; margin: 2px 0; }
+
+#multi-print-area { display: none; }
+
+@media print {
+  #app-nav { display: none !important; }
+  #multi-print-area { display: none; }
+
+  body.multi-print #app-form-wrapper { display: none !important; }
+  body.multi-print #multi-print-area {
+    display: block !important;
+    padding: 0; margin: 0;
+  }
+  .print-bed { page-break-after: always; break-after: page; }
+  .print-bed:last-child { page-break-after: avoid; break-after: avoid; }
+  .print-bed .c37.c99 { padding: 36pt 36pt 36pt 36pt; }
+
+  #app-form-wrapper { padding: 0; }
+  #app-form { box-shadow: none; border-radius: 0; }
+  body { background: white; }
+  .fi:focus, .fe:focus { background: transparent; outline: none; }
+  input[type="checkbox"].cb { accent-color: #000; }
+}
+</style>
+<!-- Firebase compat SDK -->
+<script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-firestore-compat.js"></script>
+</head>
+<body>
+
+<div id="app-nav">
+  <a href="index.html" class="home-btn" title="Página inicial">&#8592; Início</a>
+  <div class="nav-title">UTI HSH</div>
+  <div id="nav-beds"></div>
+
+  <div class="nav-global">
+    <span class="nav-label">Enf(a):</span>
+    <input id="g-enf" class="nav-input" type="text" placeholder="Enfermeiro(s)" style="width:140px;">
+
+    <span class="nav-label">Data:</span>
+    <input id="g-data" class="nav-input" type="date" style="width:120px;">
+
+    <label class="nav-checkbox-label">
+      <input id="g-diurno" type="checkbox" style="accent-color:#1a6b8a;"> Diurno
+    </label>
+    <label class="nav-checkbox-label">
+      <input id="g-noturno" type="checkbox" style="accent-color:#1a6b8a;"> Noturno
+    </label>
+
+    <div id="print-wrapper" style="position:relative;">
+      <button id="btn-print" onclick="togglePrintMenu(event)">&#128438; Imprimir &#9660;</button>
+      <div id="print-menu" class="print-dropdown" style="display:none;">
+        <a onclick="printCurrentBed()">&#128438;&nbsp; Leito atual</a>
+        <hr class="pd-sep">
+        <a onclick="printPosto(0)">&#128447;&nbsp; Posto 1 &mdash; Leitos 301&ndash;311</a>
+        <a onclick="printPosto(1)">&#128447;&nbsp; Posto 2 &mdash; Leitos 312&ndash;322</a>
+        <a onclick="printPosto(2)">&#128447;&nbsp; Posto 3 &mdash; Leitos 323&ndash;332</a>
+      </div>
+    </div>
+
+    <div id="save-indicator">Salvo &#10003;</div>
+  </div>
+</div>
+
+<div id="app-form-wrapper">
+  <div id="app-form"></div>
+</div>
+
+<script>
+// ── Firebase ─────────────────────────────────────────────────────
+const firebaseConfig = {
+  apiKey: "AIzaSyCmLD-7wWaLoeLdx3tcsKOEPGOVQEHb35U",
+  authDomain: "passometro-hsh.firebaseapp.com",
+  projectId: "passometro-hsh",
+  storageBucket: "passometro-hsh.firebasestorage.app",
+  messagingSenderId: "637798731065",
+  appId: "1:637798731065:web:3018bb135589057ab3ace8"
+};
+firebase.initializeApp(firebaseConfig);
+const db = firebase.firestore();
+const ENF_COL  = 'enf-beds';
+const GLOB_REF = db.collection('enf-globals').doc('state');
+let isLoadingFromFirestore = false;
+const bedCache = {}; // cache local dos dados de cada leito
+
+// ── Config ───────────────────────────────────────────────────────
+const BED_GROUPS = [
+  Array.from({length:11}, (_,i) => 301+i),
+  Array.from({length:11}, (_,i) => 312+i),
+  Array.from({length:10}, (_,i) => 323+i),
+];
+const ALL_BEDS = BED_GROUPS.flat();
+
+let currentBed = 301;
+let saveTimer = null;
+let globalSaveTimer = null;
+
+// ── Navigation ──────────────────────────────────────────────────
+function initNav() {
+  const container = document.getElementById('nav-beds');
+  container.style.cssText = 'display:flex;gap:4px;align-items:center;flex-wrap:wrap;';
+  BED_GROUPS.forEach((group, gi) => {
+    group.forEach(bed => {
+      const btn = document.createElement('button');
+      btn.className = 'bed-btn';
+      btn.id = 'bb-' + bed;
+      btn.textContent = bed;
+      btn.onclick = () => switchBed(bed);
+      container.appendChild(btn);
+    });
+    if (gi < BED_GROUPS.length - 1) {
+      const sep = document.createElement('div');
+      sep.className = 'nav-sep';
+      container.appendChild(sep);
+    }
+  });
+}
+
+function switchBed(bed) {
+  if (bed !== currentBed) {
+    clearTimeout(saveTimer);
+    saveBed(currentBed);
+  }
+  currentBed = bed;
+  document.querySelectorAll('.bed-btn').forEach(b => b.classList.remove('active'));
+  const btn = document.getElementById('bb-' + bed);
+  if (btn) { btn.classList.add('active'); btn.scrollIntoView({block:'nearest',inline:'nearest'}); }
+  renderForm(bed);
+  loadBed(bed);
+  updateHdr();
+}
+
+// ── Form rendering ───────────────────────────────────────────────
+function fi(field, extra='', ph='') {
+  const phAttr = ph ? ` placeholder="${ph}"` : '';
+  return `<input type="text" class="fi${extra?(' '+extra):''}" data-f="${field}"${phAttr}>`;
+}
+function fiInline(field, w, ph='') {
+  const phAttr = ph ? ` placeholder="${ph}"` : '';
+  return `<input type="text" class="fi-inline" data-f="${field}" style="width:${w}px;"${phAttr}>`;
+}
+function cb(field, lbl='') {
+  return `<input type="checkbox" class="cb" data-f="${field}">${lbl ? ('&#8202;'+lbl) : ''}`;
+}
+function fiMlh(field) {
+  return `<span style="display:inline-flex;align-items:center;gap:1px;"><input type="text" class="fi" data-f="${field}" style="width:28px;text-align:right;padding-right:1px;"><span style="font-size:5.5pt;color:#222;font-family:Calibri,sans-serif;white-space:nowrap;"> ml/h</span></span>`;
+}
+function devField(base) {
+  return `<div style="display:flex;flex-direction:column;gap:1px;">
+    <div><span style="font-size:5.5pt;color:#222;font-family:Calibri,sans-serif;">Local: </span><input type="text" class="fi-inline" data-f="${base}_local" style="width:55px;">&nbsp;<span style="font-size:5.5pt;color:#222;font-family:Calibri,sans-serif;">Ins: </span><input type="text" class="fi-inline" data-f="${base}_ins" style="width:30px;" placeholder="__/__"></div>
+    <div style="display:flex;gap:6px;align-items:center;"><input type="checkbox" class="cb" data-f="${base}_ok"><span style="font-size:5.5pt;color:#222;font-family:Calibri,sans-serif;">OK</span><input type="checkbox" class="cb" data-f="${base}_pend"><span style="font-size:5.5pt;color:#222;font-family:Calibri,sans-serif;">Pend.</span></div>
+  </div>`;
+}
+function fe(field, cls='') {
+  return `<div contenteditable="true" class="fe${cls?' '+cls:''}" data-f="${field}" data-placeholder="..."></div>`;
+}
+function simNao(base) {
+  return `${cb(base+'_sim','Sim')} ${cb(base+'_nao','Não')}`;
+}
+
+function renderForm(bed) {
+  document.getElementById('app-form').innerHTML = formHTML(bed);
+  attachListeners();
+}
+
+function formHTML(bed) {
+  return `
+<div class="c37 c99 doc-content" id="bed-${bed}">
+<div>
+<p class="c65 c100" style="display:flex;align-items:baseline;flex-wrap:wrap;gap:2px;">
+<span class="c48 c50">PASS&Ocirc;METRO DE ENFERMAGEM &nbsp;&middot;&nbsp; UTI &nbsp;&middot;&nbsp; HOSPITAL SANTA HELENA &ndash; REDE D&#39;OR</span>
+<span class="c27">&nbsp;&nbsp;|&nbsp;&nbsp; Enf(a): </span>
+<span id="hdr-enf" class="c93" style="font-size:7.5pt;"></span>
+<span class="c27">&nbsp;&nbsp;|&nbsp;&nbsp; Data: </span>
+<span id="hdr-data" class="c93" style="font-size:7.5pt;"></span>
+<span class="c27">&nbsp;&nbsp;|&nbsp;&nbsp; Plant&atilde;o: </span>
+<span id="hdr-plantao" class="c93" style="font-size:7.5pt;"></span>
+</p>
+</div>
+<p class="c13"></p>
+
+<table class="c57">
+<!-- ROW 1: IDENTIFICAÇÃO | LEITO -->
+<tr class="c35">
+  <td class="c58" colspan="2">
+    <p class="c2">
+      <span class="c104">IDENTIFICA&Ccedil;&Atilde;O | LEITO ${bed} &mdash; </span>
+      <input type="text" class="fi-paciente" data-f="paciente" placeholder="Nome do paciente">
+    </p>
+  </td>
+  <td class="c109" colspan="2"><p class="c1"></p></td>
+  <td class="c17" colspan="3"><p class="c1"></p></td>
+  <td class="c4"><p class="c1"></p></td>
+</tr>
+
+<!-- ROW 2: Dt Nasc / Atendimento / Prontuário / Convênio -->
+<tr class="c35">
+  <td class="c19"><p class="c2"><span class="c48">Dt. Nasc.:</span></p></td>
+  <td class="c5"><p class="c2">${fi('dt_nasc','','__/__/____')}</p></td>
+  <td class="c84 c77"><p class="c2"><span class="c48">Atendimento:</span></p></td>
+  <td class="c52 c95"><p class="c1">${fi('atendimento')}</p></td>
+  <td class="c42"><p class="c2"><span class="c48">Prontu&aacute;rio:</span></p></td>
+  <td class="c53 c37"><p class="c1">${fi('prontuario')}</p></td>
+  <td class="c82 c77"><p class="c2"><span class="c48">Conv&ecirc;nio:</span></p></td>
+  <td class="c73 c37"><p class="c1">${fi('convenio')}</p></td>
+</tr>
+
+<!-- ROW 3: Admissão / ANTIBIÓTICOS hdr / INFUSÕES hdr -->
+<tr class="c35">
+  <td class="c19"><p class="c2"><span class="c48">Admiss&atilde;o:</span></p></td>
+  <td class="c6"><p class="c2">${fi('admissao','','__/__/____')}</p></td>
+  <td class="c51" colspan="2"><p class="c2"><span class="c38">ANTIBI&Oacute;TICOS</span></p></td>
+  <td class="c17" colspan="3"><p class="c2"><span class="c38">INFUS&Otilde;ES CONT&Iacute;NUAS</span></p></td>
+  <td class="c4"><p class="c1"></p></td>
+</tr>
+
+<!-- ROW 4: Diagnósticos (rowspan3) / Atb header / Noradrenalina / Encrise -->
+<tr class="c47">
+  <td class="c19" rowspan="3"><p class="c2"><span class="c48">Diagn&oacute;sticos:</span></p></td>
+  <td class="c5" rowspan="3"><p class="c1">${fe('diagnosticos','fe-tall')}</p></td>
+  <td class="c59 c77"><p class="c65"><span class="c7">ANTIBI&Oacute;TICO</span></p></td>
+  <td class="c69 c77"><p class="c2"><span class="c7">IN&Iacute;CIO &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; T&Eacute;RMINO</span></p></td>
+  <td class="c86 c52"><p class="c2"><span class="c14">Noradrenalina</span></p></td>
+  <td class="c24"><p class="c2">${fiMlh('nora_mlh')}</p></td>
+  <td class="c18"><p class="c2"><span class="c14">Encrise (vasopressina)</span></p></td>
+  <td class="c66 c52"><p class="c2">${fiMlh('encrise_mlh')}</p></td>
+</tr>
+
+<!-- ROW 5: Atb1 / Midazolam / Fentanil -->
+<tr class="c47">
+  <td class="c59 c52"><p class="c1">${fi('atb1')}</p></td>
+  <td class="c5"><p class="c2">${fi('atb1_datas','','__/__/___ &nbsp; __/__/___')}</p></td>
+  <td class="c28"><p class="c2"><span class="c14">Midazolam</span></p></td>
+  <td class="c29"><p class="c2">${fiMlh('midaz_mlh')}</p></td>
+  <td class="c20"><p class="c2"><span class="c14">Fentanil</span></p></td>
+  <td class="c9"><p class="c2">${fiMlh('fent_mlh')}</p></td>
+</tr>
+
+<!-- ROW 6: Atb2 / Morfina / Ketamina -->
+<tr class="c47">
+  <td class="c11"><p class="c1">${fi('atb2')}</p></td>
+  <td class="c6"><p class="c2">${fi('atb2_datas','','__/__/___ &nbsp; __/__/___')}</p></td>
+  <td class="c86 c52"><p class="c2"><span class="c14">Morfina</span></p></td>
+  <td class="c24"><p class="c2">${fiMlh('morfina_mlh')}</p></td>
+  <td class="c18"><p class="c2"><span class="c31">Ketamina</span></p></td>
+  <td class="c52 c66"><p class="c2">${fiMlh('ketamina_mlh')}</p></td>
+</tr>
+
+<!-- ROW 7: Comorbidades (rowspan3) / Atb3 / Propofol / Amiodarona -->
+<tr class="c72">
+  <td class="c19" rowspan="3"><p class="c2"><span class="c48">Comorbidades:</span></p></td>
+  <td class="c6" rowspan="3"><p class="c1">${fe('comorbidades','fe-tall')}</p></td>
+  <td class="c59 c52"><p class="c1">${fi('atb3')}</p></td>
+  <td class="c5"><p class="c2">${fi('atb3_datas','','__/__/___ &nbsp; __/__/___')}</p></td>
+  <td class="c28"><p class="c2"><span class="c14">Propofol</span></p></td>
+  <td class="c29"><p class="c2">${fiMlh('propofol_mlh')}</p></td>
+  <td class="c20"><p class="c2"><span class="c14">Amiodarona</span></p></td>
+  <td class="c9"><p class="c2">${fiMlh('amio_mlh')}</p></td>
+</tr>
+
+<!-- ROW 8: Atb4 / Insulina / Outros1 -->
+<tr class="c47">
+  <td class="c11"><p class="c1">${fi('atb4')}</p></td>
+  <td class="c6"><p class="c2">${fi('atb4_datas','','__/__/___ &nbsp; __/__/___')}</p></td>
+  <td class="c86 c52"><p class="c2"><span class="c14">Insulina</span></p></td>
+  <td class="c24"><p class="c2">${fiMlh('insulina_mlh')}</p></td>
+  <td class="c18"><p class="c2"><span class="c14">Outros: </span>${fi('outros1_nome')}</p></td>
+  <td class="c66 c52"><p class="c2">${fiMlh('outros1_mlh')}</p></td>
+</tr>
+
+<!-- ROW 9: USO PRÉVIO / Outros2 / Outros3 -->
+<tr class="c75">
+  <td class="c89" colspan="2"><p class="c2"><span class="c63">&#9656; USO PR&Eacute;VIO</span></p></td>
+  <td class="c28"><p class="c2"><span class="c14">Outros: </span>${fi('outros2_nome')}</p></td>
+  <td class="c29"><p class="c2">${fiMlh('outros2_mlh')}</p></td>
+  <td class="c20"><p class="c2"><span class="c14">Outros: </span>${fi('outros3_nome')}</p></td>
+  <td class="c9"><p class="c2">${fiMlh('outros3_mlh')}</p></td>
+</tr>
+
+<!-- ROW 10: Alergias / Atb5 / BH -->
+<tr class="c35">
+  <td class="c74"><p class="c2"><span class="c10">&#9888; Alergias:</span></p></td>
+  <td class="c69 c105"><p class="c1">${fi('alergias')}</p></td>
+  <td class="c59 c52"><p class="c1">${fi('atb5')}</p></td>
+  <td class="c5"><p class="c2">${fi('atb5_datas','','__/__/___ &nbsp; __/__/___')}</p></td>
+  <td class="c90 c87" colspan="3"><p class="c2"><span class="c85">BH: </span><input type="text" class="fi fi-white" data-f="bh_ml" placeholder="&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;" style="width:50px;"><span class="c85"> ml/</span><span class="c101">24h</span></p></td>
+  <td class="c66 c87"><p class="c1"></p></td>
+</tr>
+
+<!-- ROW 11: Paliativos / Atb6 / Diurese -->
+<tr class="c35">
+  <td class="c97 c107"><p class="c2"><span class="c10">Paliativos:</span></p></td>
+  <td class="c3"><p class="c2"><span class="c23">${cb('pal_prop')} Proporcional &mdash; n&atilde;o fazer: ${fiInline('pal_naofazer',70)} &nbsp; ${cb('pal_excl')} Exclusivo</span></p></td>
+  <td class="c84 c37"><p class="c1">${fi('atb6')}</p></td>
+  <td class="c95 c37"><p class="c2">${fi('atb6_datas','','__/__/___ &nbsp; __/__/___')}</p></td>
+  <td class="c52 c115" colspan="3"><p class="c2">
+    <span class="c16">Diurese: </span><input type="text" class="fi-inline" data-f="diurese_ml" style="width:30px;" placeholder="ml">
+    <span class="c22"> ml &nbsp;Evacua&ccedil;&atilde;o: </span><input type="text" class="fi-inline" data-f="evac_ml" style="width:25px;" placeholder="ml">
+    <span class="c22"> ml &nbsp;HD: </span><input type="text" class="fi-inline" data-f="hd_ml" style="width:25px;" placeholder="ml">
+    <span class="c22"> ml &nbsp;Outros: </span><input type="text" class="fi-inline" data-f="outros_saida_ml" style="width:25px;" placeholder="ml">
+    <span class="c22"> ml</span>
+  </p></td>
+  <td class="c73 c52"><p class="c1"></p></td>
+</tr>
+
+<!-- ROW 12: TEV (rowspan2) / ACESSOS hdr / PARECERES hdr -->
+<tr class="c47">
+  <td class="c19" rowspan="2"><p class="c2"><span class="c48 c112">Profilaxia TEV:</span></p></td>
+  <td class="c69" rowspan="2"><p class="c2">
+    <span class="c23">
+      ${cb('tev_clexane')} Clexane &mdash; dose: ${fiInline('tev_dose',45)} &nbsp;&agrave;s ${fiInline('tev_hora',22)}h &nbsp; ${cb('tev_hemofol')} Hemofol 5.000 UI 12/12h
+    </span>
+  </p>
+  <p class="c2">
+    <span class="c25">
+      ${cb('tev_cpi')} CPI &nbsp; ${cb('tev_outro')} Outro: ${fiInline('tev_outro_txt',80)} &nbsp; ${cb('tev_contrain')} Contraindicado
+    </span>
+  </p></td>
+  <td class="c51" colspan="2"><p class="c2"><span class="c38">ACESSOS E DISPOSITIVOS</span></p></td>
+  <td class="c17" colspan="3"><p class="c2"><span class="c38">PARECERES DE ESPECIALIDADES</span></p></td>
+  <td class="c4"><p class="c1"></p></td>
+</tr>
+
+<!-- ROW 13: DISPOSITIVO / ESPECIALIDADE headers -->
+<tr class="c47">
+  <td class="c59 c77"><p class="c65"><span class="c7">DISPOSITIVO</span></p></td>
+  <td class="c69 c77"><p class="c2"><span class="c7">LOCAL / CALIBRE &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; INSER&Ccedil;&Atilde;O &nbsp; STATUS</span></p></td>
+  <td class="c60"><p class="c65"><span class="c7">ESPECIALIDADE</span></p></td>
+  <td class="c77 c79"><p class="c2"><span class="c48 c67">DATA</span></p></td>
+  <td class="c71"><p class="c2"><span class="c7">&nbsp;ENVIADO</span></p></td>
+  <td class="c15"><p class="c2"><span class="c48 c67">RESPONDIDO</span></p></td>
+</tr>
+
+<!-- ROW 14: CONDIÇÕES GERAIS hdr / AVP / Esp1 -->
+<tr class="c35">
+  <td class="c58" colspan="2"><p class="c2"><span class="c38">CONDI&Ccedil;&Otilde;ES GERAIS</span></p></td>
+  <td class="c59 c52"><p class="c2"><span class="c14">AVP</span></p></td>
+  <td class="c5"><p class="c2">${devField('avp')}</p></td>
+  <td class="c86 c52"><p class="c1">${fi('esp1')}</p></td>
+  <td class="c24"><p class="c2">${fi('esp1_data','','__/__/___')}</p></td>
+  <td class="c18"><p class="c2"><span class="c16">&nbsp;${simNao('esp1_env')}</span></p></td>
+  <td class="c66 c52"><p class="c2"><span class="c22">${simNao('esp1_resp')}</span></p></td>
+</tr>
+
+<!-- ROW 15: Mobilidade / CVC / Esp2 -->
+<tr class="c35">
+  <td class="c19"><p class="c2"><span class="c44">Mobilidade:</span></p></td>
+  <td class="c5">
+    <p class="c2"><span class="c12">${cb('mob_acamado')} Acamado &nbsp;${cb('mob_deambula')} Deambula c/aux.</span></p>
+    <p class="c2"><span class="c23">${cb('mob_indep')} Independente &nbsp;${cb('mob_dep')} Depend.</span></p>
+  </td>
+  <td class="c59 c52"><p class="c2"><span class="c23">CVC</span></p></td>
+  <td class="c5"><p class="c2">${devField('cvc')}</p></td>
+  <td class="c28"><p class="c1">${fi('esp2')}</p></td>
+  <td class="c29"><p class="c2">${fi('esp2_data','','__/__/___')}</p></td>
+  <td class="c20"><p class="c2"><span class="c16">&nbsp;${simNao('esp2_env')}</span></p></td>
+  <td class="c9"><p class="c2"><span class="c22">${simNao('esp2_resp')}</span></p></td>
+</tr>
+
+<!-- ROW 16: Acompanhante / PAI / Esp3 -->
+<tr class="c35">
+  <td class="c19"><p class="c2"><span class="c44">Acompanhante:</span></p></td>
+  <td class="c6">
+    <p class="c2"><span class="c23">${cb('acomp_sim')} Sim &mdash; Nome: ${fiInline('acomp_nome',80)}</span></p>
+    <p class="c2"><span class="c23">&nbsp;${cb('acomp_nao')} N&atilde;o</span></p>
+  </td>
+  <td class="c11"><p class="c2"><span class="c23">PAI &ndash; Linha Art.</span></p></td>
+  <td class="c6"><p class="c2">${devField('pai')}</p></td>
+  <td class="c86 c52"><p class="c1">${fi('esp3')}</p></td>
+  <td class="c24"><p class="c2">${fi('esp3_data','','__/__/___')}</p></td>
+  <td class="c18"><p class="c2"><span class="c16">&nbsp;${simNao('esp3_env')}</span></p></td>
+  <td class="c66 c52"><p class="c2"><span class="c22">${simNao('esp3_resp')}</span></p></td>
+</tr>
+
+<!-- ROW 17: Dieta / PICC / Esp4 -->
+<tr class="c35">
+  <td class="c19"><p class="c2"><span class="c44">Dieta:</span></p></td>
+  <td class="c5">
+    <p class="c2"><span class="c23">${cb('dieta_jejum')} Jejum &nbsp;${cb('dieta_oral')} Oral &mdash; consist.: ${fiInline('dieta_consist',45)}</span></p>
+    <p class="c2"><span class="c23">${cb('dieta_sne')} SNE &nbsp;${cb('dieta_gtt')} GTT &nbsp;${cb('dieta_gjt')} GJT &nbsp;${cb('dieta_parent')} Parenteral</span></p>
+  </td>
+  <td class="c59 c52"><p class="c2"><span class="c23">PICC</span></p></td>
+  <td class="c5"><p class="c2">${devField('picc')}</p></td>
+  <td class="c28"><p class="c1">${fi('esp4')}</p></td>
+  <td class="c29"><p class="c2">${fi('esp4_data','','__/__/___')}</p></td>
+  <td class="c20"><p class="c2"><span class="c16">&nbsp;${simNao('esp4_env')}</span></p></td>
+  <td class="c9"><p class="c2"><span class="c22">${simNao('esp4_resp')}</span></p></td>
+</tr>
+
+<!-- ROW 18: Fono / SVD / Esp5 -->
+<tr class="c35">
+  <td class="c19"><p class="c2"><span class="c44">Fono:</span></p></td>
+  <td class="c6"><p class="c2"><span class="c23">
+    ${cb('fono_pend')} Pend. &nbsp;${cb('fono_real')} Realizada ${fiInline('fono_data',48,'__/__/___')} &nbsp;Resultado: ${fiInline('fono_resultado',80)}
+  </span></p></td>
+  <td class="c11"><p class="c2"><span class="c23">SVD</span></p></td>
+  <td class="c6"><p class="c2">${devField('svd')}</p></td>
+  <td class="c86 c52"><p class="c1">${fi('esp5')}</p></td>
+  <td class="c24"><p class="c2">${fi('esp5_data','','__/__/___')}</p></td>
+  <td class="c18"><p class="c2"><span class="c16">&nbsp;${simNao('esp5_env')}</span></p></td>
+  <td class="c66 c52"><p class="c2"><span class="c22">${simNao('esp5_resp')}</span></p></td>
+</tr>
+
+<!-- ROW 19: Risco Queda / SNE / Esp6 -->
+<tr class="c35">
+  <td class="c19"><p class="c2"><span class="c44">Risco Queda:</span></p></td>
+  <td class="c5"><p class="c2"><span class="c23">
+    ${cb('queda_baixo')} Baixo &nbsp;${cb('queda_medio')} M&eacute;dio &nbsp;${cb('queda_alto')} Alto
+  </span></p></td>
+  <td class="c59 c52"><p class="c2"><span class="c23">SNE</span></p></td>
+  <td class="c5"><p class="c2">${devField('sne')}</p></td>
+  <td class="c28"><p class="c1">${fi('esp6')}</p></td>
+  <td class="c29"><p class="c2">${fi('esp6_data','','__/__/___')}</p></td>
+  <td class="c20"><p class="c2"><span class="c16">&nbsp;${simNao('esp6_env')}</span></p></td>
+  <td class="c9"><p class="c2"><span class="c22">${simNao('esp6_resp')}</span></p></td>
+</tr>
+
+<!-- ROW 20: Risco Delirium / SNG / Esp7 -->
+<tr class="c35">
+  <td class="c19"><p class="c2"><span class="c44">Risco Delirium:</span></p></td>
+  <td class="c6"><p class="c2"><span class="c23">
+    ${cb('delir_baixo')} Baixo &nbsp;${cb('delir_medio')} M&eacute;dio &nbsp;${cb('delir_alto')} Alto
+  </span></p></td>
+  <td class="c11"><p class="c2"><span class="c23">SNG</span></p></td>
+  <td class="c6"><p class="c2">${devField('sng')}</p></td>
+  <td class="c86 c52"><p class="c1">${fi('esp7')}</p></td>
+  <td class="c24"><p class="c2">${fi('esp7_data','','__/__/___')}</p></td>
+  <td class="c18"><p class="c2"><span class="c16">&nbsp;${simNao('esp7_env')}</span></p></td>
+  <td class="c66 c52"><p class="c2"><span class="c22">${simNao('esp7_resp')}</span></p></td>
+</tr>
+
+<!-- ROW 21: Risco Glicêm / Dreno 1 / Esp8 -->
+<tr class="c35">
+  <td class="c19"><p class="c2"><span class="c44">Risco Glic&ecirc;m.:</span></p></td>
+  <td class="c5"><p class="c2"><span class="c23">
+    ${cb('glic_hipo')} Hipoglicemia &nbsp;${cb('glic_hiper')} Hiperglicemia &nbsp;${cb('glic_ambos')} Ambos
+  </span></p></td>
+  <td class="c59 c52"><p class="c2"><span class="c23">Dreno 1</span></p></td>
+  <td class="c5"><p class="c2">${devField('dreno1')}</p></td>
+  <td class="c28"><p class="c1">${fi('esp8')}</p></td>
+  <td class="c29"><p class="c2">${fi('esp8_data','','__/__/___')}</p></td>
+  <td class="c20"><p class="c2"><span class="c16">&nbsp;${simNao('esp8_env')}</span></p></td>
+  <td class="c9"><p class="c2"><span class="c22">${simNao('esp8_resp')}</span></p></td>
+</tr>
+
+<!-- ROW 22: Febre / Dreno 2 -->
+<tr class="c35">
+  <td class="c78 c77"><p class="c2"><span class="c44">Febre:</span></p></td>
+  <td class="c61 c37"><p class="c2"><span class="c23">
+    ${cb('febre_nao')} N&atilde;o &nbsp;${cb('febre_sim')} Sim &mdash; ${fiInline('febre_temp',30,'°C')}&deg;C
+  </span></p></td>
+  <td class="c37 c113"><p class="c2"><span class="c23">Dreno 2</span></p></td>
+  <td class="c21"><p class="c2">${devField('dreno2')}</p></td>
+  <td class="c52 c111"><p class="c1"></p></td>
+  <td class="c53 c52"><p class="c2"></p></td>
+  <td class="c82 c52"><p class="c2"></p></td>
+  <td class="c52 c73"><p class="c2"></p></td>
+</tr>
+
+<!-- ROW 23: PRECAUÇÃO / CURATIVOS / OBSERVAÇÕES headers -->
+<tr class="c35">
+  <td class="c58" colspan="2"><p class="c2"><span class="c38">PRECAU&Ccedil;&Atilde;O / ISOLAMENTO</span></p></td>
+  <td class="c91" colspan="2"><p class="c2"><span class="c38">CURATIVOS / PROTE&Ccedil;&Otilde;ES</span></p></td>
+  <td class="c17" colspan="3"><p class="c2"><span class="c38">OBSERVA&Ccedil;&Otilde;ES / INTERCORR&Ecirc;NCIAS</span></p></td>
+  <td class="c4"><p class="c1"></p></td>
+</tr>
+
+<!-- ROW 24: Tipo / Curativo 1 / Observações (rowspan 3) -->
+<tr class="c35">
+  <td class="c19"><p class="c2"><span class="c44">Tipo:</span></p></td>
+  <td class="c5"><p class="c2"><span class="c23">
+    ${cb('prec_sem')} Sem precau&ccedil;&atilde;o &nbsp;${cb('prec_contato')} Contato &nbsp;${cb('prec_aereo')} A&eacute;reo &nbsp;${cb('prec_gotic')} Got&iacute;culas
+  </span></p></td>
+  <td class="c41">
+    <p class="c2"><span class="c23">Curativo 1: </span>${fiInline('cur1_nome',55)}</p>
+    <p class="c2"><span class="c16">${cb('cur1_ok')} OK &nbsp;${cb('cur1_pend')} Pend.</span></p>
+  </td>
+  <td class="c40"><p class="c2"><span class="c16">Local: ${fiInline('cur1_local',75)} ${fiInline('cur1_data',32,'__/__')}</span></p></td>
+  <td class="c30" colspan="3" rowspan="3"><p class="c1">${fe('observacoes','fe-obs')}</p></td>
+  <td class="c66 c52" rowspan="3"><p class="c1"></p></td>
+</tr>
+
+<!-- ROW 25: Swab / Curativo 2 -->
+<tr class="c35">
+  <td class="c19"><p class="c2"><span class="c44">Swab:</span></p></td>
+  <td class="c6"><p class="c2"><span class="c23">
+    ${fiInline('swab_data',50,'__/__/___')} &nbsp;${cb('swab_aguard')} Aguardando &nbsp;${cb('swab_pos')} Positivo &mdash; Agente: ${fiInline('swab_agente',65)}
+  </span></p></td>
+  <td class="c59 c98">
+    <p class="c2"><span class="c23">Curativo 2: </span>${fiInline('cur2_nome',55)}</p>
+    <p class="c2"><span class="c16">${cb('cur2_ok')} OK &nbsp;${cb('cur2_pend')} Pend.</span></p>
+  </td>
+  <td class="c54"><p class="c2"><span class="c16">Local: ${fiInline('cur2_local',75)} ${fiInline('cur2_data',32,'__/__')}</span></p></td>
+</tr>
+
+<!-- ROW 26: Proteção -->
+<tr class="c35">
+  <td class="c52 c97"><p class="c1"></p></td>
+  <td class="c5"><p class="c1"></p></td>
+  <td class="c41">
+    <p class="c2"><span class="c23">Prote&ccedil;&atilde;o: </span>${fiInline('prot_nome',55)}</p>
+    <p class="c2"><span class="c16">${cb('prot_ok')} OK &nbsp;${cb('prot_pend')} Pend.</span></p>
+  </td>
+  <td class="c40"><p class="c2"><span class="c16">Local: ${fiInline('prot_local',75)} ${fiInline('prot_data',32,'__/__')}</span></p></td>
+</tr>
+
+<!-- ROW 27: EXAMES / PROCEDIMENTOS / AJUSTES headers -->
+<tr class="c35">
+  <td class="c87 c94" colspan="2"><p class="c2"><span class="c83">EXAMES PENDENTES</span></p></td>
+  <td class="c87 c103" colspan="2"><p class="c2"><span class="c83">PROCEDIMENTOS PENDENTES</span></p></td>
+  <td class="c87 c106" colspan="3"><p class="c2"><span class="c83">AJUSTES / OUTROS</span></p></td>
+  <td class="c87 c114"><p class="c1"></p></td>
+</tr>
+
+<!-- ROW 28: Content areas -->
+<tr class="c108">
+  <td class="c52 c102" colspan="2"><p class="c1">${fe('exames_pend','fe-pend')}</p></td>
+  <td class="c56 c52" colspan="2"><p class="c1">${fe('proc_pend','fe-pend')}</p></td>
+  <td class="c49 c52" colspan="3"><p class="c1">${fe('ajustes','fe-pend')}</p></td>
+  <td class="c52 c55"><p class="c1"></p></td>
+</tr>
+
+<!-- Extra blank rows (original structure) -->
+<tr class="c35">
+  <td class="c102 c37" colspan="2"><p class="c1"></p></td>
+  <td class="c56 c37" colspan="2"><p class="c1"></p></td>
+  <td class="c37 c49" colspan="3"><p class="c1"></p></td>
+  <td class="c55 c37"><p class="c1"></p></td>
+</tr>
+<tr class="c35">
+  <td class="c102 c37" colspan="2"><p class="c1"></p></td>
+  <td class="c56 c37" colspan="2"><p class="c1"></p></td>
+  <td class="c49 c37" colspan="3"><p class="c1"></p></td>
+  <td class="c55 c37"><p class="c1"></p></td>
+</tr>
+<tr class="c35">
+  <td class="c102 c37" colspan="2"><p class="c1"></p></td>
+  <td class="c37 c56" colspan="2"><p class="c1"></p></td>
+  <td class="c49 c37" colspan="3"><p class="c1"></p></td>
+  <td class="c55 c37"><p class="c1"></p></td>
+</tr>
+
+</table>
+<p class="c13"></p>
+<div><p class="c36"><span class="c88">Hospital Santa Helena &ndash; UTI Adulto &nbsp;&middot;&nbsp; Uso exclusivo da equipe de enfermagem</span></p></div>
+</div>
+`;
+}
+
+// ── Event Listeners ──────────────────────────────────────────────
+function attachListeners() {
+  const form = document.getElementById('app-form');
+  form.querySelectorAll('input[type="text"][data-f], input[type="date"][data-f]').forEach(el => {
+    el.addEventListener('input', scheduleSave);
+  });
+  form.querySelectorAll('input[type="checkbox"][data-f]').forEach(el => {
+    el.addEventListener('change', scheduleSave);
+  });
+  form.querySelectorAll('[contenteditable="true"][data-f]').forEach(el => {
+    el.addEventListener('input', scheduleSave);
+  });
+}
+
+// ── Save/Load ────────────────────────────────────────────────────
+function scheduleSave() {
+  if (isLoadingFromFirestore) return;
+  setSaveState('saving');
+  clearTimeout(saveTimer);
+  saveTimer = setTimeout(() => saveBed(currentBed), 600);
+}
+
+function saveBed(bed) {
+  const form = document.getElementById('app-form');
+  if (!form) return;
+  const data = {};
+  form.querySelectorAll('[data-f]').forEach(el => {
+    const f = el.dataset.f;
+    if (el.type === 'checkbox') data[f] = el.checked;
+    else if (el.contentEditable === 'true') data[f] = el.innerHTML;
+    else data[f] = el.value;
+  });
+  bedCache[bed] = data;
+  db.collection(ENF_COL).doc('bed-' + bed).set(data)
+    .then(() => { setSaveState('saved'); refreshBedBtn(bed, data); setTimeout(() => setSaveState('idle'), 2000); })
+    .catch(() => { setSaveState('error'); setTimeout(() => setSaveState('idle'), 3000); });
+}
+
+function loadBed(bed) {
+  const data = bedCache[bed];
+  if (!data) return;
+  const form = document.getElementById('app-form');
+  form.querySelectorAll('[data-f]').forEach(el => {
+    const f = el.dataset.f;
+    if (!(f in data)) return;
+    if (el.type === 'checkbox') el.checked = !!data[f];
+    else if (el.contentEditable === 'true') el.innerHTML = data[f] || '';
+    else el.value = data[f] || '';
+  });
+}
+
+function saveGlobal() {
+  clearTimeout(globalSaveTimer);
+  globalSaveTimer = setTimeout(() => {
+    GLOB_REF.set({
+      enf:    document.getElementById('g-enf').value,
+      data:   document.getElementById('g-data').value,
+      diurno:  document.getElementById('g-diurno').checked,
+      noturno: document.getElementById('g-noturno').checked,
+    }).catch(err => console.error('Erro global:', err));
+    updateHdr();
+  }, 800);
+}
+
+function loadGlobal() {
+  GLOB_REF.onSnapshot(doc => {
+    if (doc.exists) {
+      const d = doc.data();
+      if (d.enf    != null) document.getElementById('g-enf').value = d.enf;
+      if (d.data   != null) document.getElementById('g-data').value = d.data;
+      if (d.diurno  != null) document.getElementById('g-diurno').checked = d.diurno;
+      if (d.noturno != null) document.getElementById('g-noturno').checked = d.noturno;
+      updateHdr();
+    }
+  });
+}
+
+function updateHdr() {
+  const enfEl = document.getElementById('hdr-enf');
+  const dataEl = document.getElementById('hdr-data');
+  const plantEl = document.getElementById('hdr-plantao');
+  if (!enfEl) return;
+  enfEl.textContent = document.getElementById('g-enf').value || '';
+  const dv = document.getElementById('g-data').value;
+  if (dv) { const [y,m,d] = dv.split('-'); dataEl.textContent = d+'/'+m+'/'+y; }
+  else dataEl.textContent = '';
+  const parts = [];
+  if (document.getElementById('g-diurno').checked) parts.push('Diurno');
+  if (document.getElementById('g-noturno').checked) parts.push('Noturno');
+  plantEl.textContent = parts.length ? parts.join(' / ') : '[ ] Diurno  [ ] Noturno';
+}
+
+function setSaveState(s) {
+  const el = document.getElementById('save-indicator');
+  if      (s === 'saving') { el.textContent = 'Salvando…'; el.style.background = '#e67e22'; }
+  else if (s === 'saved')  { el.textContent = 'Salvo ✓';   el.style.background = '#27ae60'; }
+  else if (s === 'error')  { el.textContent = 'Erro!';     el.style.background = '#c0392b'; }
+  else                     { el.textContent = '—';         el.style.background = '#555'; }
+}
+
+function refreshBedBtn(bed, data) {
+  const hasData = data && Object.values(data).some(v => v !== '' && v !== false && v !== '<br>');
+  const btn = document.getElementById('bb-' + bed);
+  if (!btn) return;
+  if (bed === currentBed) { btn.className = 'bed-btn active' + (hasData ? ' has-data' : ''); }
+  else { btn.className = 'bed-btn' + (hasData ? ' has-data' : ''); }
+}
+
+// ── Print ────────────────────────────────────────────────────────
+function togglePrintMenu(e) {
+  e.stopPropagation();
+  const menu = document.getElementById('print-menu');
+  menu.style.display = menu.style.display === 'none' ? 'block' : 'none';
+}
+function closePrintMenu() {
+  const menu = document.getElementById('print-menu');
+  if (menu) menu.style.display = 'none';
+}
+document.addEventListener('click', closePrintMenu);
+
+function printCurrentBed() {
+  closePrintMenu();
+  saveBed(currentBed);
+  updateHdr();
+  window.print();
+}
+
+function printPosto(postoIdx) {
+  closePrintMenu();
+  saveBed(currentBed);
+
+  const beds = BED_GROUPS[postoIdx];
+  const printArea = document.getElementById('multi-print-area');
+  printArea.innerHTML = '';
+
+  // Global header values
+  const enfVal  = document.getElementById('g-enf').value;
+  const dataVal = document.getElementById('g-data').value;
+  const diurno  = document.getElementById('g-diurno').checked;
+  const noturno = document.getElementById('g-noturno').checked;
+  let dataFmt = '';
+  if (dataVal) { const [y,m,d] = dataVal.split('-'); dataFmt = d+'/'+m+'/'+y; }
+  const plantaoTxt = [diurno?'Diurno':'', noturno?'Noturno':''].filter(Boolean).join(' / ')
+    || '[ ] Diurno  [ ] Noturno';
+
+  beds.forEach(bed => {
+    const wrapper = document.createElement('div');
+    wrapper.className = 'print-bed';
+    wrapper.innerHTML = formHTML(bed);
+    printArea.appendChild(wrapper);
+
+    // Fill header displays
+    const q = s => wrapper.querySelector(s);
+    if (q('#hdr-enf'))     q('#hdr-enf').textContent    = enfVal;
+    if (q('#hdr-data'))    q('#hdr-data').textContent   = dataFmt;
+    if (q('#hdr-plantao')) q('#hdr-plantao').textContent = plantaoTxt;
+
+    // Fill saved data
+    const data = bedCache[bed];
+    if (!data) return;
+    wrapper.querySelectorAll('[data-f]').forEach(el => {
+      const f = el.dataset.f;
+      if (!(f in data)) return;
+      if (el.type === 'checkbox') el.checked = !!data[f];
+      else if (el.contentEditable === 'true') el.innerHTML = data[f] || '';
+      else el.value = data[f] || '';
+    });
+  });
+
+  document.body.classList.add('multi-print');
+  window.print();
+
+  window.addEventListener('afterprint', function cleanup() {
+    document.body.classList.remove('multi-print');
+    printArea.innerHTML = '';
+    window.removeEventListener('afterprint', cleanup);
+  }, {once: true});
+}
+
+// ── Init ─────────────────────────────────────────────────────────
+window.addEventListener('DOMContentLoaded', () => {
+  initNav();
+  loadGlobal();
+
+  // Global field listeners
+  ['g-enf','g-data'].forEach(id => {
+    document.getElementById(id).addEventListener('input', () => { saveGlobal(); updateHdr(); });
+  });
+  ['g-diurno','g-noturno'].forEach(id => {
+    document.getElementById(id).addEventListener('change', () => { saveGlobal(); updateHdr(); });
+  });
+
+  // Escuta em tempo real todos os leitos
+  setSaveState('saving');
+  db.collection(ENF_COL).onSnapshot(snapshot => {
+    isLoadingFromFirestore = true;
+    snapshot.docChanges().forEach(change => {
+      if (change.type === 'added' || change.type === 'modified') {
+        const bed = parseInt(change.doc.id.replace('bed-', ''));
+        if (ALL_BEDS.includes(bed)) {
+          bedCache[bed] = change.doc.data();
+          refreshBedBtn(bed, change.doc.data());
+          // Se for o leito atual, atualiza o formulário visível
+          if (bed === currentBed) loadBed(bed);
+        }
+      }
+    });
+    isLoadingFromFirestore = false;
+    setSaveState('idle');
+  }, () => setSaveState('error'));
+
+  // Start on bed 301
+  switchBed(301);
+});
+</script>
+<div id="multi-print-area"></div>
+</body>
+</html>
